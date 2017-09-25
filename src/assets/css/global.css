@@ -6,6 +6,7 @@
   --whiteDarker: #f8deeb;
   --main: #c41744;
   --mainLighter: #dd3655;
+  --mainDarker: #810016;
 
   --maxWidth: 1140px;
 }
@@ -69,14 +70,39 @@ a {
 }
 
 button, [role="button"] {
+  display: inline-block;
   font-family: inherit;
+  color: inherit;
   cursor: pointer;
+  background-color: var(--main);
+  border-radius: 0.25rem;
+  color: var(--white);
+  padding: 0.5rem 1rem 0.75rem 1rem;
+  text-decoration: none;
+  box-shadow: inset 0 -0.25rem 0 var(--mainDarker);
+  transition: all 100ms linear;
+
+  &:hover {
+    background-color: var(--mainLighter);
+    color: var(--whiteDarker);
+    text-decoration: none;
+    box-shadow: inset 0 0 0 var(--mainDarker);
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    margin-top: 0.25rem;
+  }
 
   &.transparent {
     appearance: none;
     border: none;
     padding: 0;
     background: transparent;
+    color: inherit;
+    box-shadow: none;
+    cursor: pointer;
+
+    &:hover {
+      margin-top: 0;
+    }
   }
 }
 
@@ -84,4 +110,8 @@ button, [role="button"] {
   max-width: var(--maxWidth);
   margin: 0 auto;
   padding: 2rem 2rem 6rem 2rem;
+}
+
+.flex-container {
+  display: flex;
 }

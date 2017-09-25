@@ -1,10 +1,37 @@
 <template>
   <div>
     <section class="grid">
-      <div v-for="(video, index) in pageOfVideos" :key="index" :class="'item-' + index">
-        <button class="transparent">
+      <div v-for="(video, index) in pageOfVideos" :key="index" :class="videoClasses(index, video)">
+        <button class="transparent" @click="showVideo(video)">
           <img :src="video.cover['320']">
         </button>
+
+        <div class="details">
+          <button class="transparent close" @click="hideVideo(video)">
+            <x-icon></x-icon>
+          </button>
+
+          <video :poster="video.cover['1280']" controls>
+            <source :src="video.trailer.url" type="video/mp4">
+          </video>
+
+          <div>
+            <h3>{{ video.title }}</h3>
+            <p class="models">Starring {{ formatModels(video.models) }}</p>
+            <p v-html="video.description" class="description"></p>
+            <div class="flex-container specs">
+              <p class="dimensions">Dimensions: <span>{{ video.video.width }}&times;{{ video.video.height }}</span></p>
+              <p class="duration">Duration: <span>{{ video.video.duration }}</span></p>
+              <p class="filesize">Filesize: <span>{{ video.video.filesize }}</span></p>
+            </div>
+            <div class="purchase-options">
+              <a role="button" href="#">Buy at Clips4Sale for $6.95</a>
+              <a v-for="(po, index) in video.purchaseOptions" :key="index" role="button" :href="po.url">
+                Buy at {{ po.name }} for {{ po.currency }}{{ po.price }}
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -28,7 +55,7 @@
 
 <script>
   import axios from 'axios';
-  import { ChevronLeftIcon, ChevronRightIcon } from 'vue-feather-icons';
+  import { ChevronLeftIcon, ChevronRightIcon, XIcon } from 'vue-feather-icons';
 
   export default {
     data() {
@@ -56,6 +83,47 @@
     components: {
       ChevronLeftIcon,
       ChevronRightIcon,
+      XIcon,
+    },
+
+    methods: {
+      videoClasses(index, video) {
+        return {
+          video: true,
+          [`item-${index}`]: true,
+          active: video.active,
+        };
+      },
+
+      showVideo(video) {
+        this.$set(video, 'active', true);
+        document.body.classList.add('frozen');
+        document.onkeydown = (evt) => {
+          const event = evt || window.event;
+          if (event.keyCode === 27) {
+            this.hideVideo(video);
+          }
+        };
+      },
+
+      hideVideo(video) {
+        this.$set(video, 'active', false);
+        document.body.classList.remove('frozen');
+        document.onkeydown = null;
+      },
+
+      formatModels(models) {
+        let formatted = [];
+        models.forEach((m) => {
+          let f = m;
+          f = f.replace('-', ' ');
+          f = f.replace(/\w\S*/g, txt => txt.charAt(0).toUpperCase() + txt.substr(1));
+          formatted.push(f);
+        });
+        formatted = formatted.join(', ');
+        formatted = formatted.replace(/,([^,]*)$/, ' & $1');
+        return formatted;
+      },
     },
 
     created() {
@@ -76,6 +144,10 @@
 <style>
   @import "../assets/css/global.css";
 
+  .frozen {
+    overflow: hidden;
+  }
+
   .grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -89,6 +161,73 @@
       &:hover {
         transform: scale(1.1);
       }
+    }
+  }
+
+  .video {
+    background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+
+    & .details {
+      display: none;
+
+      & > div {
+        padding: 2rem;
+      }
+    }
+
+    &.active {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 2;
+      overflow: auto;
+      overflow-scrolling: touch;
+
+      & > button {
+        display: none;
+      }
+
+      & .details {
+        display: block;
+      }
+
+      & .close {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        z-index: 3;
+        background-color: var(--main);
+        border-radius: 50%;
+        display: flex;
+        padding: 0.5rem;
+      }
+
+      & video {
+        width: 100%;
+      }
+    }
+
+    & .models {
+      color: var(--whiteDarker);
+    }
+
+    & .specs {
+      justify-content: space-between;
+      font-size: 0.8rem;
+
+      & span {
+        color: var(--mainLighter);
+      }
+    }
+
+    & .purchase-options {
+      margin-top: 2rem;
+      text-align: center;
     }
   }
 
