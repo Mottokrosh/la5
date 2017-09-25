@@ -2,7 +2,9 @@
   <div>
     <section class="grid">
       <div v-for="(video, index) in pageOfVideos" :key="index" :class="'item-' + index">
-        <img :src="video.cover['320']">
+        <button class="transparent">
+          <img :src="video.cover['320']">
+        </button>
       </div>
     </section>
 
@@ -10,22 +12,23 @@
       <router-link
         v-if="page > 1"
         :to="{ name: 'HomePaginated', params: { page: page - 1 }}">
-          Previous
+          <chevron-left-icon></chevron-left-icon> Previous
       </router-link>
-      <span v-else>Previous</span>
+      <span v-else><chevron-left-icon></chevron-left-icon> Previous</span>
 
       <router-link
         v-if="page < totalPages"
         :to="{ name: 'HomePaginated', params: { page: page + 1 }}">
-          Next
+          Next <chevron-right-icon></chevron-right-icon>
       </router-link>
-      <span v-else>Next</span>
+      <span v-else>Next <chevron-right-icon></chevron-right-icon></span>
     </nav>
   </div>
 </template>
 
 <script>
   import axios from 'axios';
+  import { ChevronLeftIcon, ChevronRightIcon } from 'vue-feather-icons';
 
   export default {
     data() {
@@ -48,6 +51,11 @@
       pageOfVideos() {
         return this.videos.slice(this.offset, this.page * this.perPage);
       },
+    },
+
+    components: {
+      ChevronLeftIcon,
+      ChevronRightIcon,
     },
 
     created() {
@@ -76,16 +84,26 @@
     & img {
       max-width: 100%;
       display: block;
+      transition: transform 100ms ease-out;
+
+      &:hover {
+        transform: scale(1.1);
+      }
     }
   }
 
   .pagination {
     margin-top: 1rem;
-    text-align: center;
+    display: flex;
+    justify-content: center;
     
     & > * {
-      display: inline-block;
+      display: flex;
       padding: 0.5rem;
+    }
+
+    & > span {
+      opacity: 0.3;
     }
   }
 

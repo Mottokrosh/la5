@@ -3,7 +3,9 @@
 :root {
   --brandDark: #46122b;
   --white: #fff6ff;
+  --whiteDarker: #f8deeb;
   --main: #c41744;
+  --mainLighter: #dd3655;
 
   --maxWidth: 1140px;
 }
@@ -58,14 +60,28 @@ a {
   color: var(--main);
   text-decoration: none;
   font-weight: inherit;
+  transition: all 100ms ease-out;
 
   &:hover {
     text-decoration: underline;
+    color: var(--mainLighter);
+  }
+}
+
+button, [role="button"] {
+  font-family: inherit;
+  cursor: pointer;
+
+  &.transparent {
+    appearance: none;
+    border: none;
+    padding: 0;
+    background: transparent;
   }
 }
 
 #app {
   max-width: var(--maxWidth);
   margin: 0 auto;
-  padding: 2rem 2rem 5rem 2rem;
+  padding: 2rem 2rem 6rem 2rem;
 }
