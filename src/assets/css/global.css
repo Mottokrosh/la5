@@ -70,7 +70,8 @@ a {
 }
 
 button, [role="button"] {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
   font-family: inherit;
   color: inherit;
   cursor: pointer;
@@ -103,6 +104,10 @@ button, [role="button"] {
     &:hover {
       margin-top: 0;
     }
+  }
+
+  & svg {
+    margin-right: 0.5rem;
   }
 }
 
