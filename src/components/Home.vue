@@ -1,7 +1,7 @@
 <template>
   <div>
     <section class="grid">
-      <div v-for="(video, index) in pageOfVideos" :key="index" :class="videoClasses(index, video)">
+      <div v-for="(video, index) in pageOfVideos" :key="video.title" :class="videoClasses(index, video)">
         <button class="transparent" @click="showVideo(video)">
           <img :src="video.cover['320']">
         </button>
@@ -22,7 +22,7 @@
             <div class="flex-container specs">
               <p class="dimensions">Dimensions: <span>{{ video.video.width }}&times;{{ video.video.height }}</span></p>
               <p class="duration">Duration: <span>{{ video.video.duration }}</span></p>
-              <p class="filesize">Filesize: <span>{{ video.video.filesize }}</span></p>
+              <p class="filesize">Filesize: <span>{{ video.video.filesize | filesize }}</span></p>
             </div>
             <div class="purchase-options">
               <a role="button" href="#">Buy at Clips4Sale for $6.95</a>
