@@ -170,6 +170,8 @@
 
     & .details {
       display: none;
+      max-width: var(--maxWidth);
+      margin: 0 auto;
 
       & > div {
         padding: 2rem;
@@ -209,6 +211,7 @@
 
       & video {
         width: 100%;
+        display: flex;
       }
     }
 
