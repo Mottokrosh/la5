@@ -1,6 +1,9 @@
 import Vue from 'vue';
+import InstantSearch from 'vue-instantsearch';
 import App from './App';
 import router from './router';
+
+Vue.use(InstantSearch);
 
 Vue.config.productionTip = false;
 

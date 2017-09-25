@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import Home from '@/components/Home';
+import Search from '@/components/Search';
 import About from '@/components/About';
 import Contact from '@/components/Contact';
 import Links from '@/components/Links';
@@ -19,6 +20,11 @@ export default new Router({
       path: '/page/:page',
       name: 'HomePaginated',
       component: Home,
+    },
+    {
+      path: '/search',
+      name: 'Search',
+      component: Search,
     },
     {
       path: '/about',
