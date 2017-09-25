@@ -10,7 +10,7 @@
       <ais-search-box></ais-search-box>
       <ais-results>
         <template scope="{ result }">
-          <div class="result">
+          <button class="transparent result" @click="showVideo(result)">
             <div class="cover">
               <img :src="result.cover['320']">
             </div>
@@ -20,7 +20,8 @@
               </h4>
               <p>{{ formatModels(result.models) }}</p>
             </div>
-          </div>
+          </button>
+          <video-details :video="result" @close="hideVideo(result)"></video-details>
         </template>
       </ais-results>
       <ais-pagination></ais-pagination>
@@ -29,7 +30,13 @@
 </template>
 
 <script>
+  import VideoDetails from './VideoDetails';
+
   export default {
+    components: {
+      VideoDetails,
+    },
+
     methods: {
       formatModels(models) {
         let formatted = [];
@@ -55,17 +62,18 @@
     & form {
       display: flex;
       align-items: stretch;
-    }
+      margin-bottom: 1rem;
 
-    & input {
-      flex: 1;
-    }
+      & input {
+        flex: 1;
+      }
 
-    & button {
-      margin-left: 0.5rem;
+      & button {
+        margin-left: 0.5rem;
 
-      & svg {
-        fill: var(--white);
+        & svg {
+          fill: var(--white);
+        }
       }
     }
 
@@ -83,13 +91,11 @@
 
   .result {
     display: flex;
+    text-align: left;
     font-size: 0.8rem;
-    margin: 0 0 0.25rem 0;
-    background-color: color(var(--main) alpha(-80%));
-
-    &:first-of-type {
-      margin-top: 1rem;
-    }
+    background-color: color(var(--main) alpha(-80%)) !important;
+    margin: 0 0 0.25rem 0 !important;
+    width: 100%;
 
     & .cover {
       width: 120px;
@@ -106,7 +112,7 @@
     }
 
     & .text {
-      margin: 1rem 0 0 1rem;
+      margin: 0 0 0 1rem;
 
       & p {
         margin: 0;
