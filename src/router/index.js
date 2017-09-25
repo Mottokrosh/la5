@@ -11,5 +11,10 @@ export default new Router({
       name: 'Home',
       component: Home,
     },
+    {
+      path: '/page/:page',
+      name: 'HomePaginated',
+      component: Home,
+    },
   ],
 });

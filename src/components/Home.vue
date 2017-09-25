@@ -1,8 +1,26 @@
 <template>
-  <div class="grid">
-    <div v-for="(video, index) in pageOfVideos" :key="index" :class="'item-' + index">
-      <img :src="video.cover['320']">
-    </div>
+  <div>
+    <section class="grid">
+      <div v-for="(video, index) in pageOfVideos" :key="index" :class="'item-' + index">
+        <img :src="video.cover['320']">
+      </div>
+    </section>
+
+    <nav class="pagination">
+      <router-link
+        v-if="page > 1"
+        :to="{ name: 'HomePaginated', params: { page: page - 1 }}">
+          Previous
+      </router-link>
+      <span v-else>Previous</span>
+
+      <router-link
+        v-if="page < totalPages"
+        :to="{ name: 'HomePaginated', params: { page: page + 1 }}">
+          Next
+      </router-link>
+      <span v-else>Next</span>
+    </nav>
   </div>
 </template>
 
@@ -12,17 +30,37 @@
   export default {
     data() {
       return {
+        page: 1,
+        perPage: 20,
         videos: [],
-        pageOfVideos: [],
       };
     },
 
-    mounted() {
+    computed: {
+      offset() {
+        return (this.page * this.perPage) - this.perPage;
+      },
+
+      totalPages() {
+        return Math.ceil(this.videos.length / this.perPage);
+      },
+
+      pageOfVideos() {
+        return this.videos.slice(this.offset, this.page * this.perPage);
+      },
+    },
+
+    created() {
       axios.get('/static/videos.json')
         .then((response) => {
           this.videos = response.data;
-          this.pageOfVideos = this.videos.slice(0, 20);
         });
+    },
+
+    watch: {
+      $route(to) {
+        this.page = to.params.page || 1;
+      },
     },
   };
 </script>
@@ -38,6 +76,16 @@
     & img {
       max-width: 100%;
       display: block;
+    }
+  }
+
+  .pagination {
+    margin-top: 1rem;
+    text-align: center;
+    
+    & > * {
+      display: inline-block;
+      padding: 0.5rem;
     }
   }
 
