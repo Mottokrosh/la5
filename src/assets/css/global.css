@@ -106,8 +106,8 @@ button, [role="button"] {
     }
   }
 
-  & svg {
-    margin-right: 0.5rem;
+  & svg + span {
+    padding-left: 0.5rem;
   }
 }
 
