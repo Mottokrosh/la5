@@ -25,4 +25,26 @@
       margin: 0;
     }
   }
+
+  @media screen and (max-width: 400px) {
+    header {
+      background-position: center top;
+      height: auto;
+      background-size: 60px;
+      padding: 90px 0 0 0;
+
+      & h1 {
+        text-align: center;
+        width: 100%;
+        font-size: 1.75rem;
+
+        & small {
+          font-size: 1rem;
+          text-align: center;
+          letter-spacing: 0.1rem;
+        }
+      }
+    }
+  }
+
 </style>
