@@ -57,6 +57,7 @@
 <script>
   import axios from 'axios';
   import { ChevronLeftIcon, ChevronRightIcon, CreditCardIcon, XIcon } from 'vue-feather-icons';
+  import shuffleSeed from 'shuffle-seed';
 
   export default {
     data() {
@@ -129,9 +130,10 @@
     },
 
     created() {
+      const seed = (new Date()).toISOString().substring(0, 10);
       axios.get('/static/videos.json')
         .then((response) => {
-          this.videos = response.data;
+          this.videos = shuffleSeed.shuffle(response.data, seed);
         });
     },
 
