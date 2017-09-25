@@ -1,0 +1,69 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,800');
+
+:root {
+  --brandDark: #46122b;
+  --white: #fff6ff;
+  --main: #c41744;
+
+  --maxWidth: 1140px;
+}
+
+* {
+  box-sizing: border-box;
+
+  &:before, &:after {
+    box-sizing: inherit;
+  }
+}
+
+body {
+  background-color: var(--brandDark);
+  background-image:
+    radial-gradient(ellipse closest-side at center, transparent 0, rgba(0, 0, 0, .6) 100%),
+    url(/static/bg.png);
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 400;
+  color: var(--white);
+  margin: 0;
+  box-shadow: inset 0 0 40px #000;
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4 {
+  font-weight: 800;
+  margin: 0 0 1rem 0;
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: -1px;
+  color: var(--main);
+}
+
+h1 {
+  & small {
+    display: block;
+    font-size: 1.2rem;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.205rem;
+  }
+}
+
+p {
+  margin: 0 0 1rem 0;
+}
+
+a {
+  color: var(--main);
+  text-decoration: none;
+  font-weight: inherit;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+#app {
+  max-width: var(--maxWidth);
+  margin: 0 auto;
+  padding: 2rem;
+}
