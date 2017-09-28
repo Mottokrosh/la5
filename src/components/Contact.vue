@@ -2,7 +2,7 @@
   <div class="contact-form">
     <h2>Contact us</h2>
 
-    <form name="contact" action="thank-you" netlify>
+    <form name="contact" action="thank-you" method="post" netlify>
       <label>Your Name:</label><input type="text" name="name">
       <label>Your Email:</label><input type="email" name="email">
       <label>Message:</label><textarea name="message"></textarea>
