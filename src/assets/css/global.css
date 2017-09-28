@@ -73,6 +73,7 @@ button, [role="button"] {
   display: inline-flex;
   align-items: center;
   font-family: inherit;
+  font-size: 1rem;
   color: inherit;
   cursor: pointer;
   background-color: var(--main);
@@ -112,7 +113,13 @@ button, [role="button"] {
   }
 }
 
-input[type="search"], input[type="text"] {
+form {
+  display: grid;
+  grid-template-columns: minmax(60px, 30%) 1fr;
+  grid-gap: 1rem;
+}
+
+input, textarea {
   font-family: inherit;
   padding: 0.125rem 0.25rem 0.375rem 0.25rem;
   border: none;
