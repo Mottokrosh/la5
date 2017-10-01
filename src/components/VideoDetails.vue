@@ -19,10 +19,9 @@
           <p class="filesize">Filesize: <span>{{ video.video.filesize | filesize }}</span></p>
         </div>
         <div class="purchase-options">
-          <a role="button" href="#"><credit-card-icon></credit-card-icon> <span>Buy at Clips4Sale for $6.95</span></a>
-          <a v-for="(po, index) in video.purchaseOptions" :key="index" role="button" :href="po.url">
+          <a v-for="(po, index) in video.purchaseOptions" :key="index" role="button" :href="po.url" target="_blank">
             <credit-card-icon></credit-card-icon>
-            <span>Buy at {{ po.name }} for {{ po.currency }}{{ po.price }}</span>
+            <span>Buy at {{ po.storeName }} for {{ po.currency }}{{ po.price }}</span>
           </a>
         </div>
       </div>

@@ -79,7 +79,8 @@
       const seed = (new Date()).toISOString().substring(0, 10);
       axios.get('/static/videos.json')
         .then((response) => {
-          this.videos = shuffleSeed.shuffle(response.data, seed);
+          const filtered = response.data.filter(v => v.purchaseOptions.length > 0);
+          this.videos = shuffleSeed.shuffle(filtered, seed);
         });
     },
 
