@@ -10,6 +10,7 @@ import BannerLinks from '@/components/BannerLinks';
 Vue.use(Router);
 
 export default new Router({
+  mode: 'history',
   routes: [
     {
       path: '/',
