@@ -2,9 +2,11 @@
   <div class="contact-form">
     <h2>Contact us</h2>
 
-    <form name="contact" action="thank-you" method="post" netlify>
+    <form action="thank-you" method="post">
+      <input type="hidden" name="form-name" value="contact">
       <label>Your Name:</label><input type="text" name="name">
       <label>Your Email:</label><input type="email" name="email">
+      <span hidden><label>Your URL:</label><input type="url" name="url"></span>
       <label>Message:</label><textarea name="message"></textarea>
       <div></div><div><button type="submit">Send</button></div>
     </form>
@@ -15,7 +17,7 @@
   .contact-form {
     & label {
       text-align: right;
-      padding-top: 4px;
+      padding-top: 6px;
     }
 
     & input, & textarea {

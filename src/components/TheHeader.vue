@@ -1,7 +1,7 @@
 <template>
   <header>
     <h1>
-      <router-link to="/">LimitedAudience</router-link>
+      <router-link to="/home">LimitedAudience</router-link>
       <small>Fashionable Bondage</small>
     </h1>
   </header>
