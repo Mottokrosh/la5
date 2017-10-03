@@ -11,20 +11,21 @@
 </template>
 
 <script>
-  import axios from 'axios';
+  import Store from '../store';
 
   export default {
     data() {
       return {
-        links: [],
+        store: Store,
+        links: Store.state.links,
       };
     },
 
     created() {
-      axios.get('/static/links.json')
-        .then((response) => {
-          this.links = response.data;
-        });
+      if (!this.links.length) {
+        this.store.loadLinks()
+          .then((links) => { this.links = links; });
+      }
     },
   };
 </script>

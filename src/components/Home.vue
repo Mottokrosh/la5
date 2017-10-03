@@ -33,18 +33,18 @@
 </template>
 
 <script>
-  import axios from 'axios';
   import { ChevronLeftIcon, ChevronRightIcon } from 'vue-feather-icons';
-  import shuffleSeed from 'shuffle-seed';
+  import Store from '../store';
   import Modal from './Modal';
   import VideoDetails from './VideoDetails';
 
   export default {
     data() {
       return {
+        store: Store,
         page: 1,
         perPage: 20,
-        videos: [],
+        videos: Store.state.videos,
         show: null,
         videoDetailsComponent: VideoDetails,
       };
@@ -89,12 +89,10 @@
     },
 
     created() {
-      const seed = (new Date()).toISOString().substring(0, 10);
-      axios.get('/static/videos.json')
-        .then((response) => {
-          const filtered = response.data.filter(v => v.purchaseOptions.length > 0);
-          this.videos = shuffleSeed.shuffle(filtered, seed);
-        });
+      if (!this.videos.length) {
+        this.store.loadVideos()
+          .then((videos) => { this.videos = videos; });
+      }
     },
 
     watch: {
