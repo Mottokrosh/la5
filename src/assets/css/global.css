@@ -7,6 +7,8 @@
   --main: #c41744;
   --mainLighter: #dd3655;
   --mainDarker: #810016;
+  --grey: #a38f95;
+  --greyDarker: #705c62;
 
   --maxWidth: 1140px;
 }
@@ -86,13 +88,20 @@ button, [role="button"] {
   box-shadow: inset 0 -0.25rem 0 var(--mainDarker);
   transition: all 100ms linear;
 
-  &:hover {
+  &:not([disabled]):hover {
     background-color: var(--mainLighter);
     color: var(--whiteDarker);
     text-decoration: none;
     box-shadow: inset 0 0 0 var(--mainDarker);
     padding: 0.5rem 1rem 0.5rem 1rem;
     margin-top: 0.25rem;
+  }
+
+  &[disabled] {
+    cursor: not-allowed;
+    background-color: var(--grey);
+    box-shadow: inset 0 -0.25rem 0 var(--greyDarker);
+    opacity: 0.5;
   }
 
   &.transparent {
@@ -112,12 +121,6 @@ button, [role="button"] {
   & svg + span {
     padding-left: 0.5rem;
   }
-}
-
-form {
-  display: grid;
-  grid-template-columns: minmax(60px, 30%) 1fr;
-  grid-gap: 1rem;
 }
 
 input, textarea {
