@@ -66,7 +66,6 @@ a {
   transition: all 100ms ease-out;
 
   &:hover {
-    text-decoration: underline;
     color: var(--mainLighter);
   }
 }
@@ -115,6 +114,7 @@ button, [role="button"] {
 
     &:hover {
       margin-top: 0;
+      padding: 0;
     }
   }
 
@@ -140,7 +140,7 @@ input, textarea {
 #app {
   max-width: var(--maxWidth);
   margin: 0 auto;
-  padding: 2rem 2rem 6rem 2rem;
+  padding: 2rem 2rem 8rem 2rem;
 }
 
 .flex-container {

@@ -34,6 +34,7 @@
     bottom: 0;
     background-color: var(--main);
     color: var(--white);
+    box-shadow: 0 -0.5rem 0.5rem -0.5rem rgba(0, 0, 0, 0.9);
 
     & a {
       color: var(--white);

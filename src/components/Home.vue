@@ -114,6 +114,7 @@
     & img {
       max-width: 100%;
       display: block;
+      border-radius: 0.125rem;
       transition: transform 100ms ease-out;
 
       &:hover {
