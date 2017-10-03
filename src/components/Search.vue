@@ -10,7 +10,7 @@
       <ais-search-box></ais-search-box>
       <ais-results>
         <template scope="{ result }">
-          <button class="transparent result" @click="showVideo(result)">
+          <button class="transparent result" @click="openModal(result)">
             <div class="cover">
               <img :src="result.cover['320']">
             </div>
@@ -21,41 +21,50 @@
               <p>{{ formatModels(result.models) }}</p>
             </div>
           </button>
-          <video-details :video="result" @close="hideVideo(result)"></video-details>
         </template>
       </ais-results>
       <ais-pagination></ais-pagination>
     </ais-index>
+
+    <modal
+      :comp="videoDetailsComponent"
+      :show="show"
+      @close="closeModal"
+    ></modal>
   </div>
 </template>
 
 <script>
+  import Modal from './Modal';
   import VideoDetails from './VideoDetails';
 
   export default {
     components: {
+      Modal,
       VideoDetails,
     },
 
+    data() {
+      return {
+        show: null,
+        videoDetailsComponent: VideoDetails,
+      };
+    },
+
     methods: {
-      formatModels(models) {
-        let formatted = [];
-        models.forEach((m) => {
-          let f = m;
-          f = f.replace('-', ' ');
-          f = f.replace(/\w\S*/g, txt => txt.charAt(0).toUpperCase() + txt.substr(1));
-          formatted.push(f);
-        });
-        formatted = formatted.join(', ');
-        formatted = formatted.replace(/,([^,]*)$/, ' & $1');
-        return formatted;
+      openModal(video) {
+        this.show = video;
+      },
+
+      closeModal() {
+        this.show = null;
       },
     },
   };
 </script>
 
 
-<style>
+<style lang="postcss">
   @import "../assets/css/global.css";
 
   .search {

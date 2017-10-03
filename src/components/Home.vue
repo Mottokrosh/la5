@@ -1,12 +1,10 @@
 <template>
   <div>
     <section class="grid">
-      <div v-for="(video, index) in pageOfVideos" :key="video.title" :class="videoClasses(index, video)">
-        <button class="transparent" @click="showVideo(video)">
+      <div v-for="(video, index) in pageOfVideos" :key="video.title" :class="videoClasses(index)">
+        <button class="transparent" @click="openModal(video)">
           <img :src="video.cover['320']">
         </button>
-
-        <video-details :video="video" @close="hideVideo(video)"></video-details>
       </div>
     </section>
 
@@ -25,13 +23,20 @@
       </router-link>
       <span v-else>Next <chevron-right-icon></chevron-right-icon></span>
     </nav>
+
+    <modal
+      :comp="videoDetailsComponent"
+      :show="show"
+      @close="closeModal"
+    ></modal>
   </div>
 </template>
 
 <script>
   import axios from 'axios';
-  import { ChevronLeftIcon, ChevronRightIcon, CreditCardIcon, XIcon } from 'vue-feather-icons';
+  import { ChevronLeftIcon, ChevronRightIcon } from 'vue-feather-icons';
   import shuffleSeed from 'shuffle-seed';
+  import Modal from './Modal';
   import VideoDetails from './VideoDetails';
 
   export default {
@@ -40,6 +45,8 @@
         page: 1,
         perPage: 20,
         videos: [],
+        show: null,
+        videoDetailsComponent: VideoDetails,
       };
     },
 
@@ -60,18 +67,24 @@
     components: {
       ChevronLeftIcon,
       ChevronRightIcon,
-      CreditCardIcon,
+      Modal,
       VideoDetails,
-      XIcon,
     },
 
     methods: {
-      videoClasses(index, video) {
+      videoClasses(index) {
         return {
           video: true,
           [`item-${index}`]: true,
-          active: video.active,
         };
+      },
+
+      openModal(video) {
+        this.show = video;
+      },
+
+      closeModal() {
+        this.show = null;
       },
     },
 
