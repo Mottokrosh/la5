@@ -1,0 +1,31 @@
+.video-details {
+  max-width: var(--maxWidth);
+  margin: 0 auto;
+
+  & > div {
+    padding: 2rem;
+  }
+
+  & video {
+    width: 100%;
+    display: flex;
+  }
+
+  & .models {
+    color: var(--whiteDarker);
+  }
+
+  & .specs {
+    justify-content: space-between;
+    font-size: 0.8rem;
+
+    & span {
+      color: var(--mainLighter);
+    }
+  }
+
+  & .purchase-options {
+    margin-top: 2rem;
+    text-align: center;
+  }
+}

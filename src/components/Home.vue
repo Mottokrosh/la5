@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="home">
     <section class="grid">
       <div v-for="(video, index) in pageOfVideos" :key="video.title" :class="videoClasses(index)">
         <button class="transparent" @click="openModal(video)">
@@ -102,51 +102,3 @@
     },
   };
 </script>
-
-<style>
-  @import "../assets/css/global.css";
-
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-gap: 1rem;
-
-    & img {
-      max-width: 100%;
-      display: block;
-      border-radius: 0.125rem;
-      transition: transform 100ms ease-out;
-
-      &:hover {
-        transform: scale(1.1);
-      }
-    }
-  }
-
-  .pagination {
-    margin-top: 1rem;
-    display: flex;
-    justify-content: center;
-    
-    & > * {
-      display: flex;
-      padding: 0.5rem;
-    }
-
-    & > span {
-      opacity: 0.3;
-    }
-  }
-
-  @media screen and (max-width: 640px) {
-    .grid {
-      grid-template-columns: repeat(3, 1fr);
-    }
-  }
-
-  @media screen and (max-width: 480px) {
-    .grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-</style>

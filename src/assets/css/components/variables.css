@@ -1,0 +1,12 @@
+:root {
+  --brandDark: #46122b;
+  --white: #fff6ff;
+  --whiteDarker: #f8deeb;
+  --main: #c41744;
+  --mainLighter: #dd3655;
+  --mainDarker: #810016;
+  --grey: #a38f95;
+  --greyDarker: #705c62;
+
+  --maxWidth: 1140px;
+}

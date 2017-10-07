@@ -19,3 +19,5 @@
     },
   };
 </script>
+
+<style src="./assets/css/app.css" lang="postcss"></style>

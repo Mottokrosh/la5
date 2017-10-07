@@ -1,0 +1,9 @@
+input, textarea {
+  font-family: inherit;
+  padding: 0.25rem 0.5rem;
+  border-radius: 1rem;
+  font-size: 0.8rem;
+  background-color: color(var(--main) alpha(-80%));
+  border: 0.125rem solid var(--mainDarker);
+  color: var(--whiteDarker);
+}

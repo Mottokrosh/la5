@@ -47,29 +47,3 @@
     },
   };
 </script>
-
-<style>
-  .contact-form {
-    max-width: 600px;
-    margin: 0 auto;
-
-    & form {
-      display: grid;
-      grid-template-columns: 100px 1fr;
-      grid-gap: 1rem;
-    }
-
-    & label {
-      text-align: right;
-      padding-top: 6px;
-    }
-
-    & input, & textarea {
-      font-size: 1rem;
-    }
-
-    & textarea {
-      min-height: 8em;
-    }
-  }
-</style>

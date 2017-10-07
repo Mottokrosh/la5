@@ -1,50 +1,8 @@
 <template>
-  <header>
+  <header class="site-header">
     <h1>
       <router-link to="/home">LimitedAudience</router-link>
       <small>Fashionable Bondage</small>
     </h1>
   </header>
 </template>
-
-<style>
-  @import "../assets/css/global.css";
-
-  header {
-    background-image: url(/static/ballgag.png);
-    background-repeat: no-repeat;
-    background-position: left center;
-    background-size: contain;
-    height: 80px;
-    display: flex;
-    align-items: center;
-    padding-left: 70px;
-    margin-bottom: 2rem;
-
-    & h1 {
-      margin: 0;
-    }
-  }
-
-  @media screen and (max-width: 400px) {
-    header {
-      background-position: center top;
-      height: auto;
-      background-size: 60px;
-      padding: 90px 0 0 0;
-
-      & h1 {
-        text-align: center;
-        width: 100%;
-        font-size: 1.75rem;
-
-        & small {
-          font-size: 1rem;
-          text-align: center;
-          letter-spacing: 0.1rem;
-        }
-      }
-    }
-  }
-
-</style>

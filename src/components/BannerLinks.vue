@@ -29,22 +29,3 @@
     },
   };
 </script>
-
-<style>
-  .banner-links {
-    & ul {
-      list-style: none;
-      margin: 2rem 0 0 0;
-      padding: 0;
-    }
-
-    & li {
-      padding: 0;
-      margin: 0 0 2rem 0;
-    }
-
-    & img {
-      max-width: 100%;
-    }
-  }
-</style>
