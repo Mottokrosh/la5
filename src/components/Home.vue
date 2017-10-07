@@ -2,7 +2,9 @@
   <div class="home">
     <search></search>
 
-    <section class="grid">
+    <loader v-if="!videos.length"></loader>
+
+    <section v-else class="grid">
       <div v-for="(video, index) in pageOfVideos" :key="video.title" :class="videoClasses(index)">
         <button class="transparent" @click="openModal(video)">
           <img :src="video.cover['320']">
@@ -31,8 +33,9 @@
 <script>
   import { ChevronLeftIcon, ChevronRightIcon } from 'vue-feather-icons';
   import Store from '../store';
-  import VideoDetails from './VideoDetails';
+  import Loader from './Loader';
   import Search from './Search';
+  import VideoDetails from './VideoDetails';
 
   export default {
     data() {
@@ -61,6 +64,7 @@
     components: {
       ChevronLeftIcon,
       ChevronRightIcon,
+      Loader,
       Search,
     },
 
