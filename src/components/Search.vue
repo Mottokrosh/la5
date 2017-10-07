@@ -25,39 +25,20 @@
       </ais-results>
       <ais-pagination></ais-pagination>
     </ais-index>
-
-    <modal
-      :comp="videoDetailsComponent"
-      :show="show"
-      @close="closeModal"
-    ></modal>
   </div>
 </template>
 
 <script>
-  import Modal from './Modal';
   import VideoDetails from './VideoDetails';
 
   export default {
-    components: {
-      Modal,
-      VideoDetails,
-    },
-
-    data() {
-      return {
-        show: null,
-        videoDetailsComponent: VideoDetails,
-      };
-    },
-
     methods: {
       openModal(video) {
-        this.show = video;
+        window.showModal(VideoDetails, video);
       },
 
       closeModal() {
-        this.show = null;
+        window.hideModal();
       },
     },
   };

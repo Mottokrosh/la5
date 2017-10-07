@@ -23,19 +23,12 @@
       </router-link>
       <span v-else>Next <chevron-right-icon></chevron-right-icon></span>
     </nav>
-
-    <modal
-      :comp="videoDetailsComponent"
-      :show="show"
-      @close="closeModal"
-    ></modal>
   </div>
 </template>
 
 <script>
   import { ChevronLeftIcon, ChevronRightIcon } from 'vue-feather-icons';
   import Store from '../store';
-  import Modal from './Modal';
   import VideoDetails from './VideoDetails';
 
   export default {
@@ -45,8 +38,6 @@
         page: 1,
         perPage: 20,
         videos: Store.state.videos,
-        show: null,
-        videoDetailsComponent: VideoDetails,
       };
     },
 
@@ -67,8 +58,6 @@
     components: {
       ChevronLeftIcon,
       ChevronRightIcon,
-      Modal,
-      VideoDetails,
     },
 
     methods: {
@@ -80,11 +69,11 @@
       },
 
       openModal(video) {
-        this.show = video;
+        window.showModal(VideoDetails, video);
       },
 
       closeModal() {
-        this.show = null;
+        window.hideModal();
       },
     },
 

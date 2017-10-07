@@ -28,7 +28,13 @@
 
   export default {
     props: {
-      video: Object,
+      componentData: Object,
+    },
+
+    data() {
+      return {
+        video: this.componentData,
+      };
     },
 
     components: {

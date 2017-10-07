@@ -3,17 +3,21 @@
     <button class="transparent close" @click="close">
       <x-icon></x-icon>
     </button>
-    <component :is="comp" :video="show"></component>
+    <component :is="component" :component-data="componentData"></component>
   </div>
 </template>
 
 <script>
+  import Vue from 'vue';
   import { XIcon } from 'vue-feather-icons';
 
   export default {
-    props: {
-      comp: Object,
-      show: Object,
+    data() {
+      return {
+        component: null,
+        componentData: null,
+        show: false,
+      };
     },
 
     components: {
@@ -21,9 +25,39 @@
     },
 
     methods: {
-      close() {
-        this.$emit('close');
+      open(comp, compData) {
+        this.component = comp;
+        this.componentData = compData;
+        this.show = true;
       },
+
+      close() {
+        this.show = false;
+        this.component = null;
+        this.componentData = null;
+      },
+    },
+
+    created() {
+      if (!window.modalEvents) {
+        window.modalEvents = new Vue();
+
+        window.showModal = (comp, compData) => {
+          window.modalEvents.$emit('showModal', comp, compData);
+        };
+
+        window.hideModal = () => {
+          window.modalEvents.$emit('hideModal');
+        };
+      }
+
+      window.modalEvents.$on('showModal', (comp, compData) => {
+        this.open(comp, compData);
+      });
+
+      window.modalEvents.$on('hideModal', () => {
+        this.close();
+      });
     },
 
     watch: {

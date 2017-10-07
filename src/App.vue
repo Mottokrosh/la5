@@ -3,10 +3,12 @@
     <the-header></the-header>
     <router-view></router-view>
     <navigation></navigation>
+    <modal></modal>
   </div>
 </template>
 
 <script>
+  import Modal from '@/components/Modal';
   import TheHeader from '@/components/TheHeader';
   import Navigation from '@/components/Navigation';
 
@@ -14,6 +16,7 @@
     name: 'app',
 
     components: {
+      Modal,
       TheHeader,
       Navigation,
     },
