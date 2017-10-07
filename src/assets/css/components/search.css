@@ -6,13 +6,24 @@
 
     & input {
       flex: 1;
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
     }
 
     & button {
-      margin-left: 0.5rem;
+      margin-left: 0;
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+      border-top-right-radius: 1rem;
+      border-bottom-right-radius: 1rem;
+      padding-right: 1.25rem;
 
       & svg {
         fill: var(--white);
+      }
+
+      &:last-of-type {
+        display: none;
       }
     }
   }
@@ -25,6 +36,51 @@
 
     & li {
       padding: 0.25rem;
+
+      & a {
+        display: inline-flex;
+        background-color: var(--main);
+        border-radius: 0.25rem;
+        border: none;
+        color: var(--white);
+        padding: 0.5rem 1rem 0.75rem 1rem;
+        margin: 0;
+        text-decoration: none;
+        font-size: 1.1rem;
+        box-shadow: inset 0 -0.25rem 0 var(--mainDarker);
+        transition: all 100ms linear;
+
+        &:hover {
+          background-color: var(--mainLighter);
+          color: var(--whiteDarker);
+          text-decoration: none;
+          box-shadow: inset 0 0 0 var(--mainDarker);
+          padding-bottom: 0.5rem;
+          margin-top: 0.25rem;
+        }
+      }
+
+      &.ais-pagination__item--disabled {
+        & a {
+          cursor: not-allowed;
+          background-color: var(--grey);
+          box-shadow: inset 0 -0.25rem 0 var(--greyDarker);
+          opacity: 0.5;
+
+          &:hover {
+            padding-bottom: 0.75rem;
+            margin-top: 0;
+          }
+        }
+      }
+
+      &.ais-pagination__item--previous, &.ais-pagination__item--first,
+      &.ais-pagination__item--next, &.ais-pagination__item--last {
+        & a {
+          padding-left: 0.5rem;
+          padding-right: 0.5rem;
+        }
+      }
     }
   }
 }

@@ -1,5 +1,7 @@
 <template>
   <div class="home">
+    <search></search>
+
     <section class="grid">
       <div v-for="(video, index) in pageOfVideos" :key="video.title" :class="videoClasses(index)">
         <button class="transparent" @click="openModal(video)">
@@ -30,6 +32,7 @@
   import { ChevronLeftIcon, ChevronRightIcon } from 'vue-feather-icons';
   import Store from '../store';
   import VideoDetails from './VideoDetails';
+  import Search from './Search';
 
   export default {
     data() {
@@ -58,6 +61,7 @@
     components: {
       ChevronLeftIcon,
       ChevronRightIcon,
+      Search,
     },
 
     methods: {
