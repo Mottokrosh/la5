@@ -4,6 +4,7 @@ import Home from '@/components/Home';
 import About from '@/components/About';
 import Contact from '@/components/Contact';
 import Links from '@/components/Links';
+import Models from '@/components/Models';
 import BannerLinks from '@/components/BannerLinks';
 
 Vue.use(Router);
@@ -40,6 +41,11 @@ export default new Router({
       path: '/banner-links',
       name: 'BannerLinks',
       component: BannerLinks,
+    },
+    {
+      path: '/models',
+      name: 'Models',
+      component: Models,
     },
     {
       path: '/',

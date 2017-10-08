@@ -1,5 +1,10 @@
 <template>
   <div class="models">
+    <ul>
+      <li v-for="model in models" :key="model.name">
+        <a href="#"><span>{{ model.name }}</span></a>
+      </li>
+    </ul>
   </div>  
 </template>
 
