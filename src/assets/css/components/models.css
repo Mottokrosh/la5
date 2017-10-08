@@ -1,0 +1,32 @@
+.models {
+  & ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+    margin: 1rem -0.5rem;
+  }
+
+  & li {
+    flex: 0 1 156px;
+    display: flex;
+    flex-direction: column;
+    margin: 0.5rem;
+
+    & .avatar {
+      display: flex;
+      width: 156px;
+      height: 156px;
+      background-color: color(var(--main) alpha(-80%));
+      background-image: url(/static/models.jpg);
+      background-size: 1560px 3120px;
+      border-radius: 0.25rem;
+      transition: all 200ms ease-out;
+    }
+
+    & .name {
+      text-align: center;
+    }
+  }
+}
