@@ -41,3 +41,7 @@
     }
   }
 }
+
+.popover {
+  display: none;
+}
