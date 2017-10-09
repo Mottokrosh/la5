@@ -44,4 +44,23 @@
 
 .popover {
   display: none;
+  position: fixed;
+  background-color: var(--main);
+  bottom: 78px;
+  right: 0;
+  box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.9);
+
+  &.active {
+    display: block;
+  }
+
+  & a {
+    flex-direction: row;
+    justify-content: flex-end;
+    padding: 1rem 3rem;
+
+    & svg {
+      margin-left: 1rem;
+    }
+  }
 }
