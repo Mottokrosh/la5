@@ -15,12 +15,16 @@
 </template>
 
 <script>
+  import Store from '../store';
+
   export default {
     data() {
       return {
+        store: Store,
+        videos: Store.state.videos,
         pictureWidth: 156,
         pictureHeight: 156,
-        models: [
+        modelsRaw: [
           {
             name: 'Eve',
             picX: 0,
@@ -412,7 +416,7 @@
             picY: 2184,
           },
           {
-            name: 'Dominick',
+            name: 'Dominick Destruction',
             picX: 1404,
             picY: 2184,
           },
@@ -500,6 +504,29 @@
       };
     },
 
+    computed: {
+      models() {
+        const models = [];
+
+        this.modelsRaw.forEach((model) => {
+          const m = model;
+          m.slug = this.slugify(model.name);
+          m.videosCount = 0;
+          models.push(m);
+        });
+
+        /* eslint-disable no-plusplus */
+        this.videos.forEach((video) => {
+          video.models.forEach((modelSlug) => {
+            const model = models.find(m => m.slug === modelSlug);
+            if (model) model.videosCount++;
+          });
+        });
+
+        return models;
+      },
+    },
+
     methods: {
       style(model) {
         return `background-position: -${model.picX}px -${model.picY}px`;
@@ -515,6 +542,13 @@
         const el = $event.target;
         el.style = `background-position: -${model.picX}px -${model.picY}px`;
       },
+    },
+
+    created() {
+      if (!this.videos.length) {
+        this.store.loadVideos()
+          .then((videos) => { this.videos = videos; });
+      }
     },
   };
 </script>

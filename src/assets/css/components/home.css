@@ -1,7 +1,7 @@
 .home {
   & .grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
     grid-gap: 1rem;
     margin-top: 2rem;
 
@@ -29,22 +29,6 @@
 
     & > span {
       opacity: 0.3;
-    }
-  }
-}
-
-@media screen and (max-width: 640px) {
-  .home {
-    & .grid {
-      grid-template-columns: repeat(3, 1fr);
-    }
-  }
-}
-
-@media screen and (max-width: 480px) {
-  .home {
-    & .grid {
-      grid-template-columns: repeat(2, 1fr);
     }
   }
 }

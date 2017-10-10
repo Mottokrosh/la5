@@ -12,5 +12,12 @@ export default {
       formatted = formatted.replace(/,([^,]*)$/, ' & $1');
       return formatted;
     },
+
+    slugify(modelName) {
+      let model = modelName.toLowerCase().replace(/ /g, '-');
+      model = model.replace(/[^a-z_-]/, '');
+      model = model.replace(/-{2,}/g, '-');
+      return model;
+    },
   },
 };

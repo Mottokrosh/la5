@@ -42,7 +42,7 @@
       return {
         store: Store,
         page: 1,
-        perPage: 20,
+        perPage: 24,
         videos: Store.state.videos,
       };
     },
