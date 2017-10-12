@@ -23,7 +23,6 @@
   export default {
     data() {
       return {
-        videos: Store.state.videos,
         models: Store.state.models,
         pictureWidth: 156,
         pictureHeight: 156,
@@ -49,8 +48,8 @@
 
       onWidthChange(mq) {
         if (mq.matches) {
-          this.pictureWidth = 88;
-          this.pictureHeight = 88;
+          this.pictureWidth = 78;
+          this.pictureHeight = 78;
           this.divider = 2;
         } else {
           this.pictureWidth = 156;
