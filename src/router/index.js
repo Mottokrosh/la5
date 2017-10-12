@@ -18,7 +18,7 @@ export default new Router({
       component: Home,
     },
     {
-      path: '/page/:page',
+      path: '/home/page/:page',
       name: 'HomePaginated',
       component: Home,
     },
