@@ -1,21 +1,16 @@
 .models {
   & ul {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(156px, 1fr));
+    grid-gap: 1rem;
     list-style: none;
     padding: 0;
-    margin: 1rem -0.5rem;
+    text-align: center;
   }
 
   & li {
-    flex: 0 1 156px;
-    display: flex;
-    flex-direction: column;
-    margin: 0.5rem;
-
     & .avatar {
-      display: flex;
+      display: inline-block;
       width: 156px;
       height: 156px;
       background-color: color(var(--main) alpha(-80%));
@@ -26,7 +21,23 @@
     }
 
     & .name {
-      text-align: center;
+      display: block;
+    }
+  }
+}
+
+@media (max-width: 400px) {
+  .models {
+    & ul {
+      grid-template-columns: repeat(auto-fill, minmax(78px, 1fr));
+
+      & li {
+        & .avatar {
+          width: 78px;
+          height: 78px;
+          background-size: 780px 1560px;
+        }
+      }
     }
   }
 }

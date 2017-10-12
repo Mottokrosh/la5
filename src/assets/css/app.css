@@ -17,6 +17,10 @@
 @import './components/the-header.css';
 @import './components/video-details.css';
 
+img {
+  max-width: 100%;
+}
+
 [hidden] {
   display: none;
 }
