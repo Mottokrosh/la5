@@ -7,10 +7,11 @@ import Links from '@/components/Links';
 import Models from '@/components/Models';
 import ModelDetails from '@/components/ModelDetails';
 import BannerLinks from '@/components/BannerLinks';
+import Warning from '@/components/Warning';
 
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
   mode: 'history',
 
   scrollBehavior(to, from, savedPosition) {
@@ -68,3 +69,20 @@ export default new Router({
     },
   ],
 });
+
+router.afterEach((to, from) => {
+  setTimeout(() => {
+    // eslint-disable-next-line no-useless-escape, prefer-template, max-len
+    const warningDismissed = decodeURIComponent(document.cookie.replace(new RegExp('(?:(?:^|.*;)\\s*' + encodeURIComponent('la5warning').replace(/[\-\.\+\*]/g, '\\$&') + '\\s*\\=\\s*([^;]*).*$)|^.*$'), '$1')) || null;
+
+    if (!warningDismissed) {
+      window.showModal(Warning, {
+        to,
+        from,
+        hideCloseButton: true,
+      });
+    }
+  }, 0);
+});
+
+export default router;

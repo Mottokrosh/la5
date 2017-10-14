@@ -17,6 +17,7 @@
 @import './components/search.css';
 @import './components/the-header.css';
 @import './components/video-details.css';
+@import './components/warning.css';
 
 img {
   max-width: 100%;

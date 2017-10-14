@@ -11,6 +11,7 @@
         ></router-link>
         <router-link
           :to="{ name: 'ModelDetails', params: { slug: model.slug } }"
+          class="name"
         >
           <span>{{ model.name }}</span>
         </router-link>

@@ -1,6 +1,6 @@
 <template>
   <div class="modal" v-if="show">
-    <button class="transparent close" @click="close">
+    <button v-if="!componentData.hideCloseButton" class="transparent close" @click="close">
       <x-icon></x-icon>
     </button>
     <component :is="component" :component-data="componentData"></component>
