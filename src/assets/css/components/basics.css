@@ -24,3 +24,7 @@ body {
   margin: 0 auto;
   padding: 2rem 2rem 8rem 2rem;
 }
+
+:focus {
+  outline-color: var(--contrasting);
+}

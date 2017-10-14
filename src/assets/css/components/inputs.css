@@ -6,4 +6,5 @@ input, textarea {
   background-color: color(var(--main) alpha(-80%));
   border: 0.125rem solid var(--mainDarker);
   color: var(--whiteDarker);
+  -webkit-appearance: none;
 }
