@@ -17,12 +17,20 @@
       </div>
     </header>
 
+    <section class="grid">
+      <div v-for="(video, index) in videos" :key="video.title" :class="videoClasses(index)">
+        <button class="transparent" @click="openModal(video)">
+          <img :src="video.cover['320']">
+        </button>
+      </div>
+    </section>
   </div>
 </template>
 
 <script>
   import { ChevronLeftIcon } from 'vue-feather-icons';
   import Store from '../store';
+  import VideoDetails from './VideoDetails';
 
   export default {
     components: {
@@ -43,6 +51,19 @@
 
       videos() {
         return Store.state.videos.filter(video => video.models.indexOf(this.model.slug) !== -1);
+      },
+    },
+
+    methods: {
+      videoClasses(index) {
+        return {
+          video: true,
+          [`item-${index}`]: true,
+        };
+      },
+
+      openModal(video) {
+        window.showModal(VideoDetails, video);
       },
     },
   };

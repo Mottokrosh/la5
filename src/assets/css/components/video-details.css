@@ -3,7 +3,7 @@
   margin: 0 auto;
 
   & > div {
-    padding: 2rem;
+    padding: 2rem 2rem 5rem 2rem;
   }
 
   & video {

@@ -74,10 +74,6 @@
       openModal(video) {
         window.showModal(VideoDetails, video);
       },
-
-      closeModal() {
-        window.hideModal();
-      },
     },
 
     watch: {
