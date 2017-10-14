@@ -19,10 +19,10 @@ body {
   min-height: 100vh;
 }
 
-#app {
+.view {
   max-width: var(--maxWidth);
   margin: 0 auto;
-  padding: 2rem 2rem 8rem 2rem;
+  padding: 2rem;
 }
 
 :focus {

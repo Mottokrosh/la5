@@ -1,7 +1,8 @@
 <template>
   <div id="app">
     <the-header></the-header>
-    <router-view></router-view>
+    <router-view class="view"></router-view>
+    <the-footer></the-footer>
     <navigation></navigation>
     <modal></modal>
   </div>
@@ -10,6 +11,7 @@
 <script>
   import Modal from '@/components/Modal';
   import TheHeader from '@/components/TheHeader';
+  import TheFooter from '@/components/TheFooter';
   import Navigation from '@/components/Navigation';
 
   export default {
@@ -18,6 +20,7 @@
     components: {
       Modal,
       TheHeader,
+      TheFooter,
       Navigation,
     },
   };

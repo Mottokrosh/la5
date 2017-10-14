@@ -1,13 +1,18 @@
 .site-header {
-  background-image: url(/static/ballgag.png);
-  background-repeat: no-repeat;
-  background-position: left center;
-  background-size: contain;
-  height: 80px;
-  display: flex;
-  align-items: center;
-  padding-left: 70px;
-  margin-bottom: 2rem;
+  max-width: var(--maxWidth);
+  margin: 0 auto;
+  padding: 2rem 2rem 0 2rem;
+
+  & > div {
+    background-image: url(/static/ballgag.png);
+    background-repeat: no-repeat;
+    background-position: left center;
+    background-size: contain;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    padding-left: 70px;
+  }
 
   & h1 {
     margin: 0;
@@ -16,10 +21,13 @@
 
 @media screen and (max-width: 400px) {
   .site-header {
-    background-position: center top;
-    height: auto;
-    background-size: 60px;
-    padding: 90px 0 0 0;
+
+    & > div {
+      background-position: center top;
+      height: auto;
+      background-size: 60px;
+      padding: 90px 0 0 0;
+    }
 
     & h1 {
       text-align: center;

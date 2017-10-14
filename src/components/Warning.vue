@@ -20,7 +20,7 @@
       <a href="http://www.asacp.com/" target="_blank">ASACP</a> | <a href="http://www.fosi.org/" target="_blank">FOSI</a> | <a href="http://www.safesurf.com/" target="_blank">Safe Surf Rated</a> | <a href="http://www.netnanny.com/" target="_blank">Net Nanny</a> | <a href="http://www.nspcc.org.uk/help-and-advice/for-parents/online-safety/online-safety_wdh99554.html" target="_blank">NSPCC</a></p>
 
       <p>All models appearing on Limited Audience were 18 years or older at the time of photography.<br>
-      <a href="http://www.limitedaudience.com/usc2257">U.S.C. 2257 Compliance Statement</a></p>
+      <router-link to="/usc2257">U.S.C. 2257 Compliance Statement</router-link></p>
 		</aside>
   </div>
 </template>

@@ -3,7 +3,7 @@
     <header>
       <div class="title">
         <router-link to="/models" role="button" class="round">
-          <chevron-left-icon></chevron-left-icon>
+          <arrow-left-icon></arrow-left-icon>
         </router-link>
 
         <h2>
@@ -28,13 +28,13 @@
 </template>
 
 <script>
-  import { ChevronLeftIcon } from 'vue-feather-icons';
+  import { ArrowLeftIcon } from 'vue-feather-icons';
   import Store from '../store';
   import VideoDetails from './VideoDetails';
 
   export default {
     components: {
-      ChevronLeftIcon,
+      ArrowLeftIcon,
     },
 
     data() {

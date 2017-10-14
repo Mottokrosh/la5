@@ -8,6 +8,8 @@ import Models from '@/components/Models';
 import ModelDetails from '@/components/ModelDetails';
 import BannerLinks from '@/components/BannerLinks';
 import Warning from '@/components/Warning';
+import Usc2257 from '@/components/Usc2257';
+import PrivacyPolicy from '@/components/PrivacyPolicy';
 
 Vue.use(Router);
 
@@ -66,6 +68,16 @@ const router = new Router({
     {
       path: '/',
       redirect: { name: 'Home' },
+    },
+    {
+      path: '/usc2257',
+      name: 'Usc2257',
+      component: Usc2257,
+    },
+    {
+      path: '/privacy',
+      name: 'PrivacyPolicy',
+      component: PrivacyPolicy,
     },
   ],
 });
