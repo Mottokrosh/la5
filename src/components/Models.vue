@@ -25,11 +25,27 @@
   export default {
     data() {
       return {
-        models: Store.state.models,
+        allModels: Store.state.models,
         pictureWidth: 156,
         pictureHeight: 156,
         divider: 1,
       };
+    },
+
+    computed: {
+      models() {
+        const models = this.allModels.filter(m => m.videosCount > 0);
+        models.sort((a, b) => {
+          if (a.videosCount < b.videosCount) {
+            return 1;
+          }
+          if (a.videosCount > b.videosCount) {
+            return -1;
+          }
+          return 0;
+        });
+        return models;
+      },
     },
 
     methods: {

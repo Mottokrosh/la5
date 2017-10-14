@@ -8,7 +8,7 @@
 
         <h2>
           <span>{{ model.name }}</span>
-          <small>Appears in {{ model.videosCount }} videos</small>
+          <small>Appears in {{ model.videosCount }} video{{ model.videosCount === 1 ? '': 's' }}</small>
         </h2>
       </div>
 
