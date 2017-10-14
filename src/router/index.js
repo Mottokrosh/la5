@@ -5,6 +5,7 @@ import About from '@/components/About';
 import Contact from '@/components/Contact';
 import Links from '@/components/Links';
 import Models from '@/components/Models';
+import ModelDetails from '@/components/ModelDetails';
 import BannerLinks from '@/components/BannerLinks';
 
 Vue.use(Router);
@@ -46,6 +47,11 @@ export default new Router({
       path: '/models',
       name: 'Models',
       component: Models,
+    },
+    {
+      path: '/models/:slug',
+      name: 'ModelDetails',
+      component: ModelDetails,
     },
     {
       path: '/',

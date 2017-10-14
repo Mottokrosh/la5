@@ -2,16 +2,18 @@
   <div class="models">
     <ul>
       <li v-for="model in models" :key="model.name" v-if="model.name">
-        <a href="#"
+        <router-link
+          :to="{ name: 'ModelDetails', params: { slug: model.slug } }"
           class="avatar"
           :style="style(model)"
-          @mouseover="hoverStyle(model, $event)"
-          @mouseout="normalStyle(model, $event)"
-          @click.prevent="showModelDetails(model)"
-        ></a>
-        <a href="#" class="name" @click.prevent="showModelDetails(model)">
+          @mouseover.native="hoverStyle(model, $event)"
+          @mouseout.native="normalStyle(model, $event)"
+        ></router-link>
+        <router-link
+          :to="{ name: 'ModelDetails', params: { slug: model.slug } }"
+        >
           <span>{{ model.name }}</span>
-        </a>
+        </router-link>
       </li>
     </ul>
   </div>
@@ -56,11 +58,6 @@
           this.pictureHeight = 156;
           this.divider = 1;
         }
-      },
-
-      showModelDetails(model) {
-        // eslint-disable-next-line
-        console.log(model);
       },
     },
 

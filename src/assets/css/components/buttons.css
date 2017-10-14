@@ -46,6 +46,21 @@ button, [role="button"] {
     }
   }
 
+  &.round {
+    background-color: var(--main);
+    border-radius: 50%;
+    display: flex;
+    padding: 0.5rem;
+    box-shadow: none;
+
+    &:not(:disabled):hover {
+      background-color: var(--mainLighter);
+      color: var(--whiteDarker);
+      padding: 0.5rem;
+      margin-top: 0;
+    }
+  }
+
   & svg + span {
     padding-left: 0.5rem;
   }

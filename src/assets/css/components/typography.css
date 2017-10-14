@@ -4,7 +4,7 @@ h1, h2, h3, h4 {
   line-height: 1;
   text-transform: uppercase;
   letter-spacing: -1px;
-  color: var(--main);
+  color: var(--contrasting2);
 }
 
 h1 {

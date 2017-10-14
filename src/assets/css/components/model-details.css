@@ -1,0 +1,42 @@
+.model-details {
+  & header {
+    display: flex;
+    justify-content: space-between;
+    background-color: color(var(--main) alpha(-80%));
+    border-radius: 0.5rem;
+    overflow: hidden;
+
+    & h2 {
+      margin: 0;
+
+      & small {
+        display: block;
+        margin: 0.25rem 0 0 0;
+        font-weight: 400;
+        font-size: 1rem;
+        color: var(--grey);
+      }
+    }
+
+    & .title {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding: 1rem;
+    }
+
+    & .picture {
+      display: flex;
+      flex-direction: row;
+
+      & > div {
+        display: inline-block;
+        width: 156px;
+        height: 156px;
+        background-image: url(/static/models.jpg);
+        background-size: 1560px 3120px;
+      }
+    }
+  }
+}
