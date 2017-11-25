@@ -1,2 +1,13 @@
+# Legacy Promo URLs
+http://promo.limitedaudience.com/*   https://www.limitedaudience.com/   301!
+
+# Legacy URLs
+/latest             /home
+/subscribe          /home
+/affiliates          /home
+/affiliates/signup   /home
+/help               /contact
+/account            /home
+
 # Netlify Pretty URLs
 /*    /index.html   200
