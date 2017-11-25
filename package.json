@@ -1,7 +1,7 @@
 {
   "name": "la5",
   "version": "1.0.0",
-  "description": "A Vue.js project",
+  "description": "Limited Audience static site",
   "author": "Frank Reding <frank.reding@gmail.com>",
   "private": true,
   "scripts": {
