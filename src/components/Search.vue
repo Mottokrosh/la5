@@ -29,6 +29,12 @@
         <chevrons-right-icon slot="last"></chevrons-right-icon>
       </ais-pagination>
     </ais-index>
+
+    <div class="attribution" v-if="hasSearchQuery">
+      <a href="https://www.algolia.com/" target="_blank">
+        <img src="/static/search-by-algolia-white.svg">
+      </a>
+    </div>
   </div>
 </template>
 

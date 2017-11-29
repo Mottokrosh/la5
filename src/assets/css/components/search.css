@@ -84,6 +84,15 @@
       }
     }
   }
+
+  & .attribution {
+    text-align: center;
+
+    & img {
+      max-width: 110px;
+      opacity: 0.65;
+    }
+  }
 }
 
 .result {

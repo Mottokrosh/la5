@@ -1,9 +1,8 @@
 {
   "name": "la5",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Limited Audience static site",
   "author": "Frank Reding <frank.reding@gmail.com>",
-  "private": true,
   "scripts": {
     "dev": "node build/dev-server.js",
     "start": "node build/dev-server.js",
