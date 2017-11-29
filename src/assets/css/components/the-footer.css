@@ -47,4 +47,9 @@
       }
     }
   }
+
+  & .social-media {
+    text-align: center;
+    margin: 1rem auto 0 auto;
+  }
 }

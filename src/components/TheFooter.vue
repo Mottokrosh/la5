@@ -16,6 +16,10 @@
         </ul>
       </nav>
 
+      <div class="social-media">
+        <a href="https://twitter.com/LimitedAudience?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-show-count="false">Follow @LimitedAudience</a>
+      </div>
+
       <a href="http://www.bondagefederation.com/" target="_blank" class="bf-link">
         <img src="/static/bondage_federation_120x120.png" alt="Bondage Federation">
       </a>
