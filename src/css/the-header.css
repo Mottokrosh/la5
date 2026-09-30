@@ -1,4 +1,5 @@
 .site-header {
+  width: 100%;
   max-width: var(--maxWidth);
   margin: 0 auto;
   padding: 2rem 2rem 0 2rem;
