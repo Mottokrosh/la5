@@ -59,3 +59,10 @@ typings/
 
 dist/
 
+
+# Eleventy output
+_site/
+
+# Local Netlify folder (and the lockfile Netlify Dev writes)
+.netlify/
+deno.lock

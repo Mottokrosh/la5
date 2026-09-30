@@ -1,0 +1,10 @@
+input, textarea {
+  font-family: inherit;
+  padding: 0.25rem 0.5rem;
+  border-radius: 1rem;
+  font-size: 0.8rem;
+  background-color: color-mix(in srgb, var(--main) 20%, transparent);
+  border: 0.125rem solid var(--mainDarker);
+  color: var(--whiteDarker);
+  -webkit-appearance: none;
+}

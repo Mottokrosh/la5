@@ -1,0 +1,10 @@
+---
+title: Links
+---
+<h2>Links</h2>
+<span>Text Links</span> | <a href="/banner-links/">Banner Links</a>
+<ul>
+  {% for link in catalog.links %}
+  <li><a href="{{ link.url }}" target="_blank">{{ link.name }}</a> &mdash; {{ link.description }}</li>
+  {% endfor %}
+</ul>

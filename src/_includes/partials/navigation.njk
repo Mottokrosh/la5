@@ -1,0 +1,18 @@
+{% macro navLink(href, label, iconName, currentUrl) %}
+<a href="{{ href }}"{% if currentUrl | isCurrent(href) %} aria-current="page"{% endif %}>{% icon iconName %}{{ label }}</a>
+{% endmacro %}
+
+<nav class="main-navigation" aria-label="Main">
+  <ul>
+    <li>{{ navLink('/', 'Home', 'home', page.url) }}</li>
+    <li>{{ navLink('/about/', 'About', 'info', page.url) }}</li>
+    <li>{{ navLink('/models/', 'Models', 'users', page.url) }}</li>
+    <li>
+      <button class="more" popovertarget="more-menu">{% icon "more-vertical" %} More</button>
+      <div id="more-menu" class="popover" popover>
+        <a href="/contact/">Contact{% icon "mail" %}</a>
+        <a href="/links/">Links{% icon "link" %}</a>
+      </div>
+    </li>
+  </ul>
+</nav>

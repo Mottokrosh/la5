@@ -1,0 +1,35 @@
+{#
+  Open by default so the warning shows without JavaScript; the "Continue"
+  button closes it natively. age-gate.js upgrades it to a modal and
+  remembers the choice in a cookie.
+#}
+<age-gate>
+  <dialog class="age-gate" open closedby="none" aria-labelledby="age-gate-title">
+    <div class="warning">
+      <h1 id="age-gate-title">Warning</h1>
+      <p class="subtitle">For mature audiences only. This site deals with bondage, fetish and fashion fantasies. All content was produced in a highly consentual, professional, and safe environment.</p>
+
+      <div class="actions">
+        <form method="dialog">
+          <button value="continue" class="large two-lines" autofocus>
+            <span>Continue</span>
+            <small>I understand, and I am an adult</small>
+          </button>
+        </form>
+
+        <a role="button" href="https://www.google.com" class="secondary two-lines">
+          <span>Take me elsewhere</span>
+          <small>This isn't for me</small>
+        </a>
+      </div>
+
+      <aside>
+        <p>We are committed to the prevention of viewing adult content by minors. Visit these resources for more information:<br>
+        <a href="http://www.asacp.com/" target="_blank">ASACP</a> | <a href="http://www.fosi.org/" target="_blank">FOSI</a> | <a href="http://www.safesurf.com/" target="_blank">Safe Surf Rated</a> | <a href="http://www.netnanny.com/" target="_blank">Net Nanny</a> | <a href="https://www.nspcc.org.uk/keeping-children-safe/online-safety/" target="_blank">NSPCC</a></p>
+
+        <p>All models appearing on Limited Audience were 18 years or older at the time of photography.<br>
+        <a href="/usc2257/">U.S.C. 2257 Compliance Statement</a></p>
+      </aside>
+    </div>
+  </dialog>
+</age-gate>

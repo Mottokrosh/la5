@@ -1,0 +1,68 @@
+age-gate {
+  display: contents;
+}
+
+.age-ok age-gate {
+  display: none;
+}
+
+/* Also covers the page when opened non-modally (i.e. without JavaScript) */
+dialog.age-gate {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: none;
+  overflow-y: auto;
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+
+  &::backdrop {
+    background: transparent;
+  }
+}
+
+.warning {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: 100%;
+  padding: 5rem;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.5);
+
+  & .actions {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    & button {
+      margin-bottom: 1rem;
+    }
+  }
+
+  & aside {
+    margin-top: 3rem;
+    font-size: 0.9rem;
+    color: var(--grey);
+
+    & a {
+      font-weight: 800;
+    }
+  }
+}
+
+@media (max-width: 400px) {
+  .warning {
+    padding: 3rem 1rem;
+  }
+}

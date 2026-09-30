@@ -1,0 +1,13 @@
+---
+title: Models
+permalink: /models/
+bodyClass: models
+---
+<ul>
+  {% for model in catalog.models %}
+  <li style="--x: {{ model.picX }}; --y: {{ model.picY }}">
+    <a href="/models/{{ model.slug }}/" class="avatar" aria-hidden="true" tabindex="-1"></a>
+    <a href="/models/{{ model.slug }}/" class="name"><span>{{ model.name }}</span></a>
+  </li>
+  {% endfor %}
+</ul>
