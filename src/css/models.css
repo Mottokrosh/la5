@@ -1,0 +1,55 @@
+.models {
+  & ul {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(156px, 1fr));
+    grid-gap: 1rem;
+    list-style: none;
+    padding: 0;
+    text-align: center;
+  }
+
+  & li {
+    --scale: 1;
+    --size: 156px;
+
+    & .avatar {
+      display: inline-block;
+      width: var(--size);
+      height: var(--size);
+      background-color: color-mix(in srgb, var(--main) 20%, transparent);
+      background-image: url(/static/models.jpg);
+      background-size: 1560px 3120px;
+      border-radius: 0.25rem;
+      box-shadow: inset 0 0 0 1px #000;
+      background-position: calc(var(--x) * var(--scale) * -1px) calc(var(--y) * var(--scale) * -1px);
+      transition: all 200ms ease-out;
+    }
+
+    /* The sprite's second row holds an alternate picture of each model */
+    &:hover .avatar,
+    &:focus-within .avatar {
+      background-position: calc(var(--x) * var(--scale) * -1px) calc(var(--y) * var(--scale) * -1px - var(--size));
+    }
+
+    & .name {
+      display: block;
+    }
+  }
+}
+
+@media (max-width: 400px) {
+  .models {
+    & ul {
+      grid-template-columns: repeat(auto-fill, minmax(78px, 1fr));
+
+      & li {
+        --scale: 0.5;
+        --size: 78px;
+
+        & .avatar {
+          background-size: 780px 1560px;
+        }
+      }
+    }
+  }
+}

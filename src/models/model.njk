@@ -1,0 +1,27 @@
+---
+pagination:
+  data: catalog.models
+  size: 1
+  alias: model
+permalink: "/models/{{ model.slug }}/"
+bodyClass: model-details
+eleventyComputed:
+  title: "{{ model.name | safe }}"
+---
+<header>
+  <div class="title">
+    <a href="/models/" role="button" class="round" aria-label="All models">{% icon "arrow-left" %}</a>
+
+    <h2>
+      <span>{{ model.name }}</span>
+      <small>Appears in {{ model.videosCount }} video{% if model.videosCount != 1 %}s{% endif %}</small>
+    </h2>
+  </div>
+
+  <div class="picture">
+    <div style="--x: {{ model.picX }}; --y: {{ model.picY }}"></div>
+  </div>
+</header>
+
+{% set videos = catalog.videos | featuring(model.slug) %}
+{% include "partials/video-grid.njk" %}

@@ -1,0 +1,47 @@
+---
+pagination:
+  data: catalog.videos
+  size: 1
+  alias: video
+permalink: "/videos/{{ video.slug }}/"
+eleventyComputed:
+  title: "{{ video.title | safe }}"
+  description: "{{ video.description | stripHtml | safe }}"
+  image: "{{ video.cover['1280'] | safe }}"
+---
+<article class="video-details" data-pagefind-body>
+  <video poster="{{ video.cover['1280'] }}" width="{{ video.trailer.width }}" height="{{ video.trailer.height }}" controls preload="metadata">
+    <source src="{{ video.trailer.url }}" type="video/mp4">
+  </video>
+
+  <div>
+    <h2 data-pagefind-meta="title">{{ video.title }}</h2>
+    <p class="models">Starring {% for model in video.cast %}<a href="/models/{{ model.slug }}/">{{ model.name }}</a>{% if loop.revindex == 2 %} &amp; {% elif not loop.last %}, {% endif %}{% endfor %}</p>
+    <p class="description">{{ video.description | safe }}</p>
+
+    {# Search result metadata and filters #}
+    <span hidden data-pagefind-meta="image:{{ video.cover['320'] }}"></span>
+    <span hidden data-pagefind-meta="models:{% for model in video.cast %}{{ model.name }}{% if loop.revindex == 2 %} & {% elif not loop.last %}, {% endif %}{% endfor %}"></span>
+    {% for model in video.cast %}<span hidden data-pagefind-filter="model">{{ model.name }}</span>{% endfor %}
+
+    <div data-pagefind-ignore>
+      <div class="flex-container specs">
+        <p class="dimensions">Dimensions: <span>{{ video.video.width }}&times;{{ video.video.height }}</span></p>
+        <p class="duration">Duration: <span>{{ video.video.duration }}</span></p>
+        <p class="filesize">Filesize: <span>{{ video.video.filesize | filesize }}</span></p>
+      </div>
+      <div class="purchase-options">
+        {% for po in video.purchaseOptions %}
+        <div>
+          <a role="button" href="{{ po.url }}" target="_blank">
+            {% icon "credit-card" %}
+            <span>Buy at {{ po.storeName }} for {{ po.currency }}{{ po.price }}</span>
+          </a>
+        </div>
+        {% else %}
+        <p class="purchase-notice">{% icon "credit-card" %} Purchase links are under construction. Please check back soon!</p>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</article>

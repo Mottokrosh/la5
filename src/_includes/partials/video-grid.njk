@@ -1,0 +1,7 @@
+<section class="grid">
+  {% for video in videos %}
+  <a class="video" href="/videos/{{ video.slug }}/">
+    <img src="{{ video.cover['320'] }}" alt="{{ video.title }}"{% if loop.index > 8 %} loading="lazy"{% endif %}>
+  </a>
+  {% endfor %}
+</section>

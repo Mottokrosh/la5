@@ -1,0 +1,35 @@
+.site-footer {
+  flex-grow: 1;
+  background-color: rgba(0, 0, 0, 0.4);
+
+  & > div {
+    max-width: var(--maxWidth);
+    margin: 0 auto;
+    padding: 2rem 2rem 8rem 2rem;
+    font-size: 0.8rem;
+    color: var(--greyDarker);
+    text-align: center;
+  }
+
+  & nav {
+    margin-top: 0.25rem;
+  }
+
+  & ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  & li {
+    display: inline-block;
+  }
+
+  & a {
+    color: var(--grey);
+
+    &:hover {
+      color: var(--mainLighter);
+    }
+  }
+}

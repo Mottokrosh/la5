@@ -1,0 +1,14 @@
+---
+title: Banner Links
+bodyClass: banner-links
+---
+<h2>Links</h2>
+<a href="/links/">Text Links</a> | <span>Banner Links</span>
+<ul>
+  {% for link in catalog.links %}{% if link.banner %}
+  <li>
+    <a href="{{ link.url }}" target="_blank"><img src="{{ link.banner }}" alt="" loading="lazy"></a><br>
+    <a href="{{ link.url }}" target="_blank">{{ link.name }}</a>
+  </li>
+  {% endif %}{% endfor %}
+</ul>

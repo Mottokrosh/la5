@@ -1,0 +1,53 @@
+.video-details {
+  max-width: var(--maxWidth);
+  margin: 0 auto;
+
+  & > div {
+    padding: 2rem 2rem 5rem 2rem;
+  }
+
+  & video {
+    width: 100%;
+    height: auto;
+    display: flex;
+  }
+
+  .view & > div {
+    padding: 2rem 0 0 0;
+  }
+
+  & .models {
+    color: var(--whiteDarker);
+  }
+
+  & .specs {
+    justify-content: space-between;
+    font-size: 0.8rem;
+
+    & span {
+      color: var(--mainLighter);
+    }
+  }
+
+  & .purchase-options {
+    margin-top: 1rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+
+    & div {
+      margin: 1rem auto 0 auto;
+    }
+
+    & .purchase-notice {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin: 1rem auto 0 auto;
+      padding: 0.75rem 1rem;
+      border-radius: 0.25rem;
+      color: var(--whiteDarker);
+      background-color: color-mix(in srgb, var(--main) 20%, transparent);
+    }
+  }
+}

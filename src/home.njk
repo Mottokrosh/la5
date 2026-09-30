@@ -1,0 +1,34 @@
+---
+pagination:
+  data: catalog.videos
+  size: 24
+  alias: videos
+permalink: "{% if pagination.pageNumber == 0 %}/{% else %}/page/{{ pagination.pageNumber + 1 }}/{% endif %}"
+bodyClass: home
+scripts: [/js/video-search.js]
+eleventyComputed:
+  title: "{% if pagination.pageNumber > 0 %}Page {{ pagination.pageNumber + 1 }}{% endif %}"
+---
+<video-search class="search">
+  <form role="search">
+    <input type="search" name="q" placeholder="Search..." aria-label="Search videos" autocomplete="off">
+    <button type="submit" aria-label="Search">{% icon "search" %}</button>
+  </form>
+  <div class="search-results" aria-live="polite"></div>
+</video-search>
+
+{% include "partials/video-grid.njk" %}
+
+<nav class="pagination" aria-label="Pagination">
+  {% if pagination.href.previous %}
+  <a href="{{ pagination.href.previous }}" rel="prev">{% icon "chevron-left" %} Previous</a>
+  {% else %}
+  <span>{% icon "chevron-left" %} Previous</span>
+  {% endif %}
+
+  {% if pagination.href.next %}
+  <a href="{{ pagination.href.next }}" rel="next">Next {% icon "chevron-right" %}</a>
+  {% else %}
+  <span>Next {% icon "chevron-right" %}</span>
+  {% endif %}
+</nav>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, width=device-width">
+    <title>{% if title %}{{ title }} | Limited Audience{% else %}Limited Audience - Fashionable HD Bondage{% endif %}</title>
+    <meta name="description" content="{{ description or 'Limited Audience shows gorgeous women in all manner of bondage, with an emphasis on a wide range of outfits, including satin, period, latex, dresses, and high heels.' }}">
+    {% if image %}<meta property="og:image" content="{{ image }}">{% endif %}
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/favicon.png">
+    <link rel="icon" type="image/png" href="/static/favicon.png" sizes="180x180">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;800&display=swap">
+    <link rel="stylesheet" href="/app.css">
+    <script>
+      // Hide the age warning before first paint if it was already accepted
+      if (document.cookie.split('; ').includes('la5warning=1')) document.documentElement.classList.add('age-ok');
+    </script>
+    <script type="module" src="/js/age-gate.js"></script>
+    <script type="module" src="/js/video-dialog.js"></script>
+    {% for script in scripts %}<script type="module" src="{{ script }}"></script>{% endfor %}
+  </head>
+  <body>
+    {% include "partials/header.njk" %}
+    <main class="view {{ bodyClass }}">
+      {{ content | safe }}
+    </main>
+    {% include "partials/footer.njk" %}
+    {% include "partials/navigation.njk" %}
+
+    <video-dialog>
+      <dialog class="modal" aria-label="Video details">
+        <form method="dialog">
+          <button class="transparent close" aria-label="Close">{% icon "x" %}</button>
+        </form>
+        <div class="modal-content"></div>
+      </dialog>
+    </video-dialog>
+
+    {% include "partials/age-gate.njk" %}
+  </body>
+</html>
