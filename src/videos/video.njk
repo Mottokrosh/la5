@@ -10,7 +10,7 @@ eleventyComputed:
   image: "{{ video.cover['1280'] | safe }}"
 ---
 <article class="video-details" data-pagefind-body>
-  <video poster="{{ video.cover['1280'] }}" width="{{ video.trailer.width }}" height="{{ video.trailer.height }}" controls preload="none">
+  <video poster="{{ video.cover['1280'] }}" width="{{ video.trailer.width }}" height="{{ video.trailer.height }}" controls preload="metadata">
     <source src="{{ video.trailer.url }}" type="video/mp4">
   </video>
 

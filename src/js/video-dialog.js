@@ -40,7 +40,8 @@ class VideoDialog extends HTMLElement {
     // Another video was opened in the meantime
     if (request !== this.#request) return;
 
-    this.content.replaceChildren(document.adoptNode(details));
+    // Import rather than adopt, so the <video> is created fresh in this document
+    this.content.replaceChildren(document.importNode(details, true));
     if (push) window.history.pushState({ videoDialog: url }, '', url);
     document.title = title;
 
