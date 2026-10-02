@@ -74,12 +74,20 @@ The gallery photos, video covers and trailers are served through CloudFront, whe
 | `limited-audience-covers` | `E3CGUU93ABGFV3` | `https://d3h12rtbqhy9yo.cloudfront.net` |
 | `limited-audience-trailers` | `E7IB8YMIW1251` | `https://d20xnhkw69yz83.cloudfront.net` |
 
-- **Access:** each distribution reads its bucket through the `la5-s3` Origin Access Control, which each bucket's policy allows.
+- **Access:** each distribution reads its bucket through the `la5-s3` Origin Access Control, which each bucket's policy allows. The three buckets are private, with all of Block Public Access on, so direct S3 URLs return 403.
 - **Price class:** `PriceClass_100`, meaning edge locations in Europe and North America.
-- **Caching:** the `la5-static-min-1d` cache policy keeps files for at least a day. The covers and trailers are stored with `Cache-Control: no-cache`, so the `la5-cache-1d` response headers policy also tells browsers to keep them for a day.
+- **Caching:** the `la5-static-min-1d` cache policy keeps files for at least a day and otherwise follows each file's own `Cache-Control`:
+  - gallery photos: `public, max-age=31536000, immutable`, set by the export
+  - covers and trailers: `public, max-age=2592000` (30 days)
+
+  Upload new covers and trailers with the same header, for example:
+  ```bash
+  aws s3 cp <file> s3://limited-audience-covers/ --cache-control "public, max-age=2592000"
+  ```
 - **Replaced files:** after replacing a cover or trailer under the same name, create an invalidation, for example:
   ```bash
   aws cloudfront create-invalidation --distribution-id E3CGUU93ABGFV3 --paths "/<file>"
   ```
+  Browsers that already have the old file can keep it for up to 30 days.
 
 The banners in `links.json` are still served straight from S3.
