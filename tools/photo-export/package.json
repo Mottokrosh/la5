@@ -1,0 +1,20 @@
+{
+  "name": "la5-photo-export",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Encodes the LimitedAudienceLar gallery photos, uploads them to S3 and writes the gallery metadata for la5",
+  "type": "module",
+  "scripts": {
+    "export": "caffeinate -is node export.mjs",
+    "verify": "node export.mjs --verify",
+    "json": "node export.mjs --json-only"
+  },
+  "engines": {
+    "node": ">= 22"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.1144.0",
+    "mysql2": "^3.24.5",
+    "sharp": "^0.35.5"
+  }
+}

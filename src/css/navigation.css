@@ -22,7 +22,8 @@
   }
 
   & li {
-    flex: 1 1 auto;
+    flex: 1 1 0;
+    min-width: 0;
   }
 
   & a, & button.more {
@@ -54,6 +55,15 @@
       box-shadow: none;
       padding: 1rem;
       margin: 0;
+    }
+  }
+
+  /* Five items have to fit on a narrow phone */
+  @media (max-width: 480px) {
+    & a, & button.more,
+    & button.more:not([disabled]):hover {
+      padding: 1rem 0.25rem;
+      font-size: 0.9rem;
     }
   }
 }

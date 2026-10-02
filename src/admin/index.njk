@@ -1,0 +1,23 @@
+---
+title: Admin
+permalink: /admin/
+bodyClass: admin
+noindex: true
+scripts: [/js/photo-gallery.js, /js/admin-gallery.js]
+styles: [/css/photoswipe.css]
+eleventyExcludeFromCollections: true
+---
+<h2>All photos</h2>
+
+<admin-gallery class="search" data-src="/admin/photos.json">
+  <form role="search">
+    <input type="search" name="q" placeholder="Search title, model, description..." aria-label="Search photos" autocomplete="off">
+    <button type="submit" aria-label="Search">{% icon "search" %}</button>
+  </form>
+  <p class="search-status" aria-live="polite">Loading…</p>
+
+  <photo-gallery>
+    <div class="photo-grid"></div>
+  </photo-gallery>
+  <div class="sentinel"></div>
+</admin-gallery>

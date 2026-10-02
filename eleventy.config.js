@@ -1,3 +1,4 @@
+import { existsSync } from 'node:fs';
 import { rm } from 'node:fs/promises';
 import * as pagefind from 'pagefind';
 import icon from './src/_lib/icon.js';
@@ -5,6 +6,15 @@ import icon from './src/_lib/icon.js';
 export default function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy('static');
   eleventyConfig.addPassthroughCopy({ 'src/_redirects': '_redirects', 'src/js': 'js' });
+  eleventyConfig.addPassthroughCopy({
+    'node_modules/photoswipe/dist/photoswipe.esm.min.js': 'js/vendor/photoswipe.esm.min.js',
+    'node_modules/photoswipe/dist/photoswipe-lightbox.esm.min.js': 'js/vendor/photoswipe-lightbox.esm.min.js',
+    'node_modules/photoswipe/dist/photoswipe.css': 'css/photoswipe.css',
+  });
+  // Photos written by `tools/photo-export/export.mjs --local`, for trying the galleries out locally
+  if (!process.env.NETLIFY && existsSync('tools/photo-export/out/local')) {
+    eleventyConfig.addPassthroughCopy({ 'tools/photo-export/out/local': 'local-photos' });
+  }
   eleventyConfig.addWatchTarget('src/data/');
   eleventyConfig.addWatchTarget('src/css/');
 

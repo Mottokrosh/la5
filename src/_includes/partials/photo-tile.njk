@@ -1,0 +1,6 @@
+<a class="photo" href="{{ photo.full }}" data-avif="{{ photo.fullAvif }}" data-pswp-width="{{ photo.width }}" data-pswp-height="{{ photo.height }}" style="--r: {{ photo.ratio }}; background-color: {{ photo.color }}" target="_blank">
+  <picture>
+    <source type="image/avif" srcset="{{ photo.thumbAvif }}">
+    <img src="{{ photo.thumb }}" alt="{{ photo.caption }}" loading="lazy" decoding="async" width="{{ photo.width }}" height="{{ photo.height }}">
+  </picture>
+</a>
