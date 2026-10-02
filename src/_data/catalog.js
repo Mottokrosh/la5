@@ -21,8 +21,8 @@ export default async function () {
   const titleCounts = Map.groupBy(videos, video => slugify(video.title));
   const usedSlugs = new Set();
 
+  // Videos without purchase links are shown too, with an "under construction" notice
   const catalog = videos
-    .filter(video => video.purchaseOptions.length > 0)
     .map((video) => {
       let base = slugify(video.title);
       if (titleCounts.get(base).length > 1) base = `${base}-${video.models.join('-')}`;
