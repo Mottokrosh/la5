@@ -16,3 +16,7 @@ http://promo.limitedaudience.com/*   https://www.limitedaudience.com/   301!
 /account            /
 /home.php           /
 /preview*           /
+
+# Videos whose title another video now shares
+/videos/back-to-back   /videos/back-to-back-altsiren-elyssia/   301
+/videos/in-chains      /videos/in-chains-elyssia/               301
