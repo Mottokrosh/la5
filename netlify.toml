@@ -12,3 +12,7 @@
   targetPort = 8080
   port = 8888
   publish = "_site"
+
+# Fetches the photo gallery metadata from Netlify Blobs before the build
+[[plugins]]
+  package = "./netlify/plugins/photo-data"

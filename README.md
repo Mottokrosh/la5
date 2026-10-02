@@ -35,7 +35,7 @@ Node 22 or newer is required. `npm start` needs the [Netlify CLI](https://docs.n
 
 `/photos/` shows 500 random gallery photos, changing daily. `/admin/` shows every gallery photo, newest first, and you can search it by title, model and description. The permanent collection only appears in the admin area, and photostories aren't included.
 
-The photos are in the `limited-audience-gallery` S3 bucket (eu-central-1). The keys are unguessable, of the form `full/<key>.avif|jpg` and `thumb/<key>.avif|jpg`. The metadata is kept in Netlify Blobs, not in this public repo, because it includes the permanent collection. The build reads it from the `galleries` key of the `photos` store. `/admin/photos.json` is the only place it gets published, and that path is behind the password.
+The photos are in the `limited-audience-gallery` S3 bucket (eu-central-1). The keys are unguessable, of the form `full/<key>.avif|jpg` and `thumb/<key>.avif|jpg`. The metadata is kept in Netlify Blobs, not in this public repo, because it includes the permanent collection. Before each Netlify build, a local build plugin (`netlify/plugins/photo-data/`) fetches it from the `galleries` key of the `photos` store into `.cache/`, because the build command itself can't read Blobs. `/admin/photos.json` is the only place it gets published, and that path is behind the password.
 
 ### Exporting the photos
 
@@ -63,6 +63,5 @@ To try the pages locally without S3, run `node export.mjs --local --limit 500`. 
 ### Netlify environment variables
 
 - `ADMIN_PASSWORD`: the admin area's password.
-- `NETLIFY_BLOBS_TOKEN` (only if the build can't read the blob store by itself): a personal access token, used together with the automatic `SITE_ID`.
 
 The bucket needs a policy that allows public `s3:GetObject` on its objects, but not listing.

@@ -71,3 +71,6 @@ deno.lock
 tools/photo-export/out/
 tools/photo-export/.progress*.jsonl*
 tools/photo-export/.failures.jsonl
+
+# Photo metadata fetched from Netlify Blobs at build time
+.cache/

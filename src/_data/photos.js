@@ -1,26 +1,22 @@
 import { readFile } from 'node:fs/promises';
-import { getStore } from '@netlify/blobs';
 import { dailySeed, shuffle } from '../_lib/shuffle.js';
 
 const DAILY_COUNT = 500;
 
-// Written by tools/photo-export; see the README. The metadata includes the
-// permanent collection, so it lives in Netlify Blobs rather than this (public) repo.
-async function fromBlobs() {
-  const options = process.env.NETLIFY_BLOBS_CONTEXT
-    ? {}
-    : process.env.SITE_ID && process.env.NETLIFY_BLOBS_TOKEN
-      ? { siteID: process.env.SITE_ID, token: process.env.NETLIFY_BLOBS_TOKEN }
-      : null;
-  if (!options) return null;
-  return getStore({ name: 'photos', ...options }).get('galleries', { type: 'json' });
-}
+// The metadata includes the permanent collection, so it lives in Netlify Blobs
+// rather than this (public) repo. On Netlify, the photo-data build plugin
+// fetches it into .cache/; locally, it's the photo export's own output, or a
+// sample made with --local (see the README).
+const SOURCES = [
+  '../../.cache/photos/galleries.json',
+  '../../tools/photo-export/out/galleries.json',
+  '../../tools/photo-export/out/galleries.local.json',
+];
 
-// For local development: the export's own output, or a sample made with --local
-async function fromExport() {
-  for (const file of ['galleries.json', 'galleries.local.json']) {
+async function load() {
+  for (const file of SOURCES) {
     try {
-      return JSON.parse(await readFile(new URL(`../../tools/photo-export/out/${file}`, import.meta.url), 'utf8'));
+      return JSON.parse(await readFile(new URL(file, import.meta.url), 'utf8'));
     } catch {
       // Try the next one
     }
@@ -29,14 +25,7 @@ async function fromExport() {
 }
 
 export default async function () {
-  let data;
-  try {
-    data = await fromBlobs();
-  } catch (error) {
-    if (process.env.CONTEXT === 'production') throw error;
-    console.warn(`[photos] Couldn't read the photos blob store: ${error.message}`);
-  }
-  data ??= await fromExport();
+  const data = await load();
 
   if (!data) {
     // Never replace the live gallery with an empty one
