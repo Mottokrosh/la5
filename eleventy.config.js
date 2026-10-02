@@ -29,6 +29,7 @@ export default function (eleventyConfig) {
 
   eleventyConfig.addFilter('featuring', (videos, modelSlug) => videos.filter(video => video.models.includes(modelSlug)));
   // The photo metadata names models the way the site does, so match on the name
+  eleventyConfig.addFilter('except', (cast, slug) => cast.filter(model => model.slug !== slug));
   eleventyConfig.addFilter('picturing', (photos, modelName) => photos.filter(photo => photo.models.includes(modelName)));
 
   // Build the search index from the generated video pages

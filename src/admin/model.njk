@@ -1,0 +1,72 @@
+---
+pagination:
+  data: admin.models
+  size: 1
+  alias: model
+permalink: "/admin/{{ model.slug }}/"
+bodyClass: model-details admin
+noindex: true
+eleventyExcludeFromCollections: true
+eleventyComputed:
+  title: "{{ model.name | safe }} | Admin"
+---
+{% from "partials/admin-counts.njk" import counts %}
+<header>
+  <div class="title">
+    <a href="/admin/" role="button" class="round" aria-label="All models">{% icon "arrow-left" %}</a>
+
+    <h2>
+      <span>{{ model.name }}</span>
+      <small>{{ counts(model.counts) }}</small>
+    </h2>
+  </div>
+
+  <div class="picture">
+    <div style="--x: {{ model.picX }}; --y: {{ model.picY }}"></div>
+  </div>
+</header>
+
+{% if model.videos.length %}
+<h3>Videos</h3>
+<ul class="admin-cards">
+  {% for video in model.videos %}
+  <li{% if not video.href %} class="unpublished"{% endif %}>
+    {% if video.href %}<a href="{{ video.href }}">{% else %}<div>{% endif %}
+      <span class="thumb" style="aspect-ratio: {{ video.imageRatio }}">
+        {% if video.image %}<img src="{{ video.image }}" alt="" loading="lazy">{% endif %}
+        {% if video.permanent %}<span class="badge" title="Permanent collection">PC</span>{% endif %}
+      </span>
+      <strong>{{ video.title }}</strong>
+    {% if video.href %}</a>{% else %}</div>{% endif %}
+    <span class="meta">
+      {{ video.date or 'No date' }}{% if video.video %} · {{ video.video.width }}×{{ video.video.height }} {{ video.video.format | upper }} · {{ video.video.duration }}{% endif %}
+      {% if not video.href %}<br>Not on the site{% if not video.trailer %}, no trailer{% endif %}{% endif %}
+    </span>
+    {% set others = video.cast | except(model.slug) %}{% if others.length %}<span class="meta">With {% for m in others %}<a href="/admin/{{ m.slug }}/">{{ m.name }}</a>{% if not loop.last %}, {% endif %}{% endfor %}</span>{% endif %}
+  </li>
+  {% endfor %}
+</ul>
+{% endif %}
+
+{% if model.galleries.length %}
+<h3>Galleries</h3>
+<ul class="admin-cards">
+  {% for gallery in model.galleries %}
+  {% set cover = gallery.tiles[0] %}
+  <li>
+    <a href="/admin/{{ model.slug }}/{{ gallery.slug }}/">
+      <span class="thumb" style="aspect-ratio: 4 / 3; background-color: {{ cover.color }}">
+        <picture>
+          <source type="image/avif" srcset="{{ cover.thumbAvif }}">
+          <img src="{{ cover.thumb }}" alt="" loading="lazy">
+        </picture>
+        {% if gallery.permanent %}<span class="badge" title="Permanent collection">PC</span>{% endif %}
+      </span>
+      <strong>{{ gallery.title }}</strong>
+    </a>
+    <span class="meta">{{ gallery.date or 'No date' }} · {{ gallery.photos.length }} photo{% if gallery.photos.length != 1 %}s{% endif %}</span>
+    {% set others = gallery.cast | except(model.slug) %}{% if others.length %}<span class="meta">With {% for m in others %}<a href="/admin/{{ m.slug }}/">{{ m.name }}</a>{% if not loop.last %}, {% endif %}{% endfor %}</span>{% endif %}
+  </li>
+  {% endfor %}
+</ul>
+{% endif %}

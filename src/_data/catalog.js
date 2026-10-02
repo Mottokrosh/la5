@@ -1,5 +1,6 @@
 import { readFile } from 'node:fs/promises';
 import { dailySeed, shuffle } from '../_lib/shuffle.js';
+import slugify from '../_lib/slugify.js';
 
 // Stores whose purchase links no longer work; hidden until they're replaced
 const INACTIVE_STORES = new Set(['Clips4Sale']);
@@ -7,10 +8,6 @@ const INACTIVE_STORES = new Set(['Clips4Sale']);
 async function load(name) {
   const json = await readFile(new URL(`../data/${name}.json`, import.meta.url), 'utf8');
   return JSON.parse(json.replace(/^\uFEFF/, ''));
-}
-
-function slugify(text) {
-  return text.toLowerCase().normalize('NFKD').replace(/['’]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 }
 
 export default async function () {

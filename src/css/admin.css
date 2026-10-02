@@ -1,0 +1,129 @@
+.admin {
+  & .counts {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--grey);
+
+    & > span {
+      display: block;
+    }
+  }
+
+  & h3 {
+    margin-top: 2rem;
+  }
+
+  & .badge {
+    padding: 0 0.375rem;
+    border-radius: 0.125rem;
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0;
+    vertical-align: middle;
+    color: var(--white);
+    background-color: var(--mainDarker);
+  }
+
+  & .meta {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--grey);
+  }
+}
+
+/* The counts under a model's name in the page header */
+.model-details.admin header h2 small {
+  text-transform: none;
+  letter-spacing: 0;
+
+  & .counts {
+    font-size: 1rem;
+  }
+}
+
+.admin-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1.5rem 1rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  & a, & li > div {
+    display: block;
+    color: var(--white);
+  }
+
+  & a:hover {
+    color: var(--mainLighter);
+  }
+
+  & .meta a {
+    display: inline;
+    color: var(--main);
+  }
+
+  & .thumb {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    margin-bottom: 0.375rem;
+    border-radius: 0.125rem;
+    background-color: color-mix(in srgb, var(--main) 20%, transparent);
+
+    & img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 100ms ease-out;
+    }
+
+    & .badge {
+      position: absolute;
+      top: 0.25rem;
+      left: 0.25rem;
+    }
+  }
+
+  & a:hover img,
+  & a:focus-visible img {
+    transform: scale(1.05);
+  }
+
+  & strong {
+    display: block;
+    font-size: 0.9rem;
+  }
+
+  /* Videos that aren't on the site can't be opened */
+  & .unpublished .thumb img {
+    opacity: 0.6;
+  }
+}
+
+.admin-gallery .gallery-header {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
+
+  & h2 {
+    margin-bottom: 0.5rem;
+  }
+
+  & .meta {
+    margin-bottom: 0.5rem;
+  }
+
+  & .description {
+    max-width: 70ch;
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-cards {
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 1rem 0.75rem;
+  }
+}

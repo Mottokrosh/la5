@@ -18,6 +18,7 @@ Node 22 or newer is required. `npm start` needs the [Netlify CLI](https://docs.n
 - `src/data/*.json`: the videos, models and links. Edit these to update the catalogue.
 - `src/_data/catalog.js`: loads the JSON, gives each video a URL slug, counts videos per model, and shuffles the videos using the build date as the seed.
 - `src/_data/photos.js`: loads the gallery photo metadata (see [Photos](#photos)) and picks the day's 100 random photos, leaving out the permanent collection. Each model's page shows the ones she's in.
+- `src/_data/admin.js`: builds the admin area from the same metadata: every model with all her videos and galleries.
 - `src/*.html`, `src/*.njk`: the pages. Every video gets its own page at `/videos/<slug>/`.
 - `src/css/`: plain CSS, combined into `/app.css` by `src/app.css.11ty.js`.
 - `src/js/`: web components that enhance the static HTML:
@@ -25,7 +26,6 @@ Node 22 or newer is required. `npm start` needs the [Netlify CLI](https://docs.n
   - `<video-dialog>`: opens video pages in a dialog instead of navigating to them
   - `<video-search>`: search box and results, powered by the Pagefind index
   - `<photo-gallery>`: opens the photo tiles inside it in a [PhotoSwipe](https://photoswipe.com/) lightbox
-  - `<admin-gallery>`: the admin area's searchable grid of every photo
   - `vendor/trackpad-gestures.js`: PhotoSwipe plugin for trackpad swipes, copied from fast-gallery (`src/client/trackpad-gestures.js`). Keep the two in sync.
 - `eleventy.config.js`: builds the Pagefind index after every Eleventy build.
 - `netlify/functions/daily-rebuild.mjs`: a scheduled function that rebuilds the site daily, so the video order changes every day. It needs a Netlify build hook URL in the `BUILD_HOOK_URL` environment variable.
@@ -33,13 +33,19 @@ Node 22 or newer is required. `npm start` needs the [Netlify CLI](https://docs.n
 
 ## Photos
 
-`/photos/` shows 100 random gallery photos, changing daily, and each model page shows the ones she appears in. `/admin/` shows every gallery photo, newest first, and you can search it by title, model and description. The permanent collection only appears in the admin area, and photostories aren't included.
+`/photos/` shows 100 random gallery photos, changing daily, and each model page shows the ones she appears in. The permanent collection only appears in the admin area, and photostories aren't included.
 
-The photos are in the `limited-audience-gallery` S3 bucket (eu-central-1) and served through CloudFront. The keys are unguessable, of the form `full/<key>.avif|jpg` and `thumb/<key>.avif|jpg`. The metadata is kept in Netlify Blobs, not in this public repo, because it includes the permanent collection. Before each Netlify build, a local build plugin (`netlify/plugins/photo-data/`) fetches it from the `galleries` key of the `photos` store into `.cache/`, because the build command itself can't read Blobs. `/admin/photos.json` is the only place it gets published, and that path is behind the password.
+The admin area covers everything in the LimitedAudienceLar database, the permanent collection (PC) included:
+
+- `/admin/`: every model, with how many videos and galleries she's in, and how many of those are PC.
+- `/admin/<model>/`: her videos and galleries, newest first. Videos on the site open the usual overlay; the rest are listed with their cover, format and length.
+- `/admin/<model>/<gallery>/`: the gallery's photos, in the usual grid and lightbox. A gallery with several models has a page under each of them.
+
+The photos are in the `limited-audience-gallery` S3 bucket (eu-central-1) and served through CloudFront. The keys are unguessable, of the form `full/<key>.avif|jpg` and `thumb/<key>.avif|jpg`. The covers of videos that aren't on the site are next to them, as `vcover/<key>.jpg`. The metadata is kept in Netlify Blobs, not in this public repo, because it includes the permanent collection. Before each Netlify build, a local build plugin (`netlify/plugins/photo-data/`) fetches it from the `galleries` key of the `photos` store into `.cache/`, because the build command itself can't read Blobs. It's only ever published under `/admin/`, which is behind the password.
 
 ### Exporting the photos
 
-`tools/photo-export/` reads the galleries from the LimitedAudienceLar database and media drive. For each photo it encodes full-size (long edge up to 2400px) and 400px-high thumbnail versions as AVIF and JPEG, uploads them, and writes `out/galleries.json`.
+`tools/photo-export/` reads the galleries from the LimitedAudienceLar database and media drive. For each photo it encodes full-size (long edge up to 2400px) and 400px-high thumbnail versions as AVIF and JPEG, and uploads them. It does the same for the covers of videos that aren't on the site (640px JPEG; their progress is in `.video-covers.jsonl`). Then it writes `out/galleries.json`, which lists every gallery and video set in the database and which la5 video each video set is, if any.
 
 1. Mount the media drive and start the database: `docker compose up -d db` in LimitedAudienceLar.
 2. Create `tools/photo-export/.env` with these values:

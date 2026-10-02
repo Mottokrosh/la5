@@ -1,0 +1,6 @@
+{%- macro counts(c) -%}
+<span class="counts">
+  <span>{{ c.videos }} video{% if c.videos != 1 %}s{% endif %}{% if c.videosPermanent %} ({{ c.videosPermanent }} PC){% endif %}</span>
+  <span>{{ c.galleries }} galler{% if c.galleries != 1 %}ies{% else %}y{% endif %}{% if c.galleriesPermanent %} ({{ c.galleriesPermanent }} PC){% endif %}</span>
+</span>
+{%- endmacro -%}
