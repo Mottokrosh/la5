@@ -4,7 +4,7 @@ import { readFile } from 'node:fs/promises';
 const files = [
   'variables', 'basics', 'typography', 'buttons', 'inputs',
   'banner-links', 'contact', 'home', 'modal', 'models', 'model-details',
-  'navigation', 'search', 'the-header', 'the-footer', 'video-details', 'warning',
+  'navigation', 'photo-grid', 'search', 'the-header', 'the-footer', 'video-details', 'warning',
 ];
 
 export const data = {

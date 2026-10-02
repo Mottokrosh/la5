@@ -12,6 +12,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;800&display=swap">
     <link rel="stylesheet" href="/app.css">
+    {% for style in styles %}<link rel="stylesheet" href="{{ style }}">{% endfor %}
+    {% if noindex %}<meta name="robots" content="noindex, nofollow">{% endif %}
     <script>
       // Hide the age warning before first paint if it was already accepted
       if (document.cookie.split('; ').includes('la5warning=1')) document.documentElement.classList.add('age-ok');

@@ -66,3 +66,11 @@ _site/
 # Local Netlify folder (and the lockfile Netlify Dev writes)
 .netlify/
 deno.lock
+
+# Photo export: output, resumable progress logs (the logs map item ids to object keys, so keep them private)
+tools/photo-export/out/
+tools/photo-export/.progress*.jsonl*
+tools/photo-export/.failures.jsonl
+
+# Photo metadata fetched from Netlify Blobs at build time
+.cache/

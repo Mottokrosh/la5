@@ -22,14 +22,18 @@
   }
 
   & li {
-    flex: 1 1 auto;
+    flex: 1 1 0;
+    min-width: 0;
   }
 
-  & a, & button.more {
+  /* A fixed height, so the "More" menu can sit exactly on top of the bar */
+  & li > a, & button.more {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 1rem;
+    justify-content: center;
+    height: var(--navHeight);
+    padding: 0 1rem;
 
     &:hover {
       background-color: var(--mainLighter);
@@ -42,7 +46,6 @@
   }
 
   & button.more {
-    anchor-name: --more-menu;
     width: 100%;
     border-radius: 0;
     box-shadow: none;
@@ -52,24 +55,28 @@
     &:not([disabled]):hover {
       background-color: var(--mainLighter);
       box-shadow: none;
-      padding: 1rem;
+      padding: 0 1rem;
       margin: 0;
+    }
+  }
+
+  /* Five items have to fit on a narrow phone */
+  @media (max-width: 480px) {
+    & li > a, & button.more,
+    & button.more:not([disabled]):hover {
+      padding: 0 0.25rem;
+      font-size: 0.9rem;
     }
   }
 }
 
 .popover {
+  /* Pinned just above the bar's right-hand end, where the "More" button is. Not
+     anchor-positioned: iOS Safari loses track of an anchor in a fixed bar as its
+     toolbars collapse and expand, leaving the menu floating mid-screen. */
   position: fixed;
-  inset: auto 0 78px auto;
+  inset: auto max(0px, (100% - var(--maxWidth)) / 2) var(--navHeight) auto;
   margin: 0;
-
-  /* Centre above the "More" button, shifting sideways if it would overflow the viewport */
-  @supports (position-area: top) {
-    position-anchor: --more-menu;
-    position-area: top;
-    position-try-fallbacks: top span-left, top span-right;
-    inset: auto;
-  }
 
   padding: 0;
   border: none;
@@ -78,9 +85,16 @@
   box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.9);
 
   & a {
+    display: flex;
     flex-direction: row;
     justify-content: flex-end;
+    align-items: center;
     padding: 1rem 3rem;
+
+    &:hover {
+      background-color: var(--mainLighter);
+      color: var(--whiteDarker);
+    }
 
     & svg {
       margin-left: 1rem;

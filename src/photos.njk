@@ -1,0 +1,16 @@
+---
+title: Photos
+description: A daily selection of photos from the Limited Audience galleries.
+permalink: /photos/
+bodyClass: photos
+scripts: [/js/photo-gallery.js]
+styles: [/css/photoswipe.css]
+---
+<h2>Photos</h2>
+<p class="intro">Today’s random selection of {{ photos.daily.length }} photos from our many galleries produced between 2000 and 2018. A new set appears every day.</p>
+
+<photo-gallery>
+  <div class="photo-grid">
+    {% for photo in photos.daily %}{% include "partials/photo-tile.njk" %}{% endfor %}
+  </div>
+</photo-gallery>
