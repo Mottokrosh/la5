@@ -25,3 +25,17 @@ eleventyComputed:
 
 {% set videos = catalog.videos | featuring(model.slug) %}
 {% include "partials/video-grid.njk" %}
+
+{% set modelPhotos = photos.daily | picturing(model.name) %}
+{% if modelPhotos.length %}
+<section class="model-photos">
+  <link rel="stylesheet" href="/css/photoswipe.css">
+  <script type="module" src="/js/photo-gallery.js"></script>
+  <h3>In today’s <a href="/photos/">photos</a></h3>
+  <photo-gallery>
+    <div class="photo-grid">
+      {% for photo in modelPhotos %}{% include "partials/photo-tile.njk" %}{% endfor %}
+    </div>
+  </photo-gallery>
+</section>
+{% endif %}
