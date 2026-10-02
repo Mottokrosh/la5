@@ -45,7 +45,8 @@ const MEDIA_ROOT = env.MEDIA_ROOT ?? '/Volumes/Vhalhisstre/Projects/LimitedAudie
 const BUCKET = env.BUCKET ?? 'limited-audience-gallery';
 const REGION = env.AWS_REGION ?? 'eu-central-1';
 const LOCAL_DIR = args.local ? path.join(here, 'out', 'local') : null;
-const PUBLIC_BASE = LOCAL_DIR ? '/local-photos' : env.PUBLIC_BASE ?? `https://s3.${REGION}.amazonaws.com/${BUCKET}`;
+// The bucket's CloudFront distribution
+const PUBLIC_BASE = LOCAL_DIR ? '/local-photos' : env.PUBLIC_BASE ?? 'https://d14bn3hw7yvfhd.cloudfront.net';
 const CONCURRENCY = Number(args.concurrency ?? env.CONCURRENCY ?? Math.max(2, Math.floor(cpus().length / 2)));
 
 const PROGRESS = path.join(here, LOCAL_DIR ? '.progress.local.jsonl' : '.progress.jsonl');
