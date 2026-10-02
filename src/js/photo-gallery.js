@@ -1,6 +1,9 @@
 import PhotoSwipeLightbox from '/js/vendor/photoswipe-lightbox.esm.min.js';
 import PhotoSwipeTrackpadGestures from '/js/vendor/trackpad-gestures.js';
 
+// A 1×1 AVIF: if the browser decodes it, open the full-size photos as AVIF too
+const AVIF_TEST = 'data:image/avif;base64,AAAAHGZ0eXBhdmlmAAAAAG1pZjFhdmlmbWlhZgAAANZtZXRhAAAAAAAAACFoZGxyAAAAAAAAAABwaWN0AAAAAAAAAAAAAAAAAAAAACJpbG9jAAAAAERAAAEAAQAAAAAA+gABAAAAAAAAAB8AAAAjaWluZgAAAAAAAQAAABVpbmZlAgAAAAABAABhdjAxAAAAAA5waXRtAAAAAAABAAAAVmlwcnAAAAA4aXBjbwAAAAxhdjFDgSACAAAAABRpc3BlAAAAAAAAAAEAAAABAAAAEHBpeGkAAAAAAwgICAAAABZpcG1hAAAAAAAAAAEAAQOBAgMAAAAnbWRhdBIACgc4AAaQENBpMhIZQmMEw88880EgAJBAyRxhQr4=';
+
 /**
  * Opens the photo tiles inside it in a PhotoSwipe lightbox, and fades each
  * thumbnail in once it has loaded. Tiles added later (the admin grid appends
@@ -13,6 +16,7 @@ class PhotoGallery extends HTMLElement {
   connectedCallback() {
     this.addEventListener('load', event => event.target.classList?.add('ready'), true);
     this.reveal();
+    this.#detectAvif();
 
     this.#lightbox = new PhotoSwipeLightbox({
       gallery: this,
@@ -59,7 +63,15 @@ class PhotoGallery extends HTMLElement {
     }
   }
 
+  #detectAvif() {
+    const test = new Image();
+    test.onload = () => { this.#avif ??= true; };
+    test.onerror = () => { this.#avif ??= false; };
+    test.src = AVIF_TEST;
+  }
+
   #takesAvif() {
+    // Usually settled by the test image; otherwise go by what the thumbnails picked
     if (this.#avif === null) {
       const seen = [...this.querySelectorAll('a.photo img')].find(img => img.currentSrc);
       if (seen) this.#avif = seen.currentSrc.endsWith('.avif');
