@@ -3,6 +3,8 @@
  * Encodes every gallery photo from the LimitedAudienceLar database and media
  * drive, uploads full-size and thumbnail AVIF + JPEG to S3, and writes
  * out/galleries.json for the la5 build (pushed to Netlify Blobs by hand).
+ * That also lists every video set in the database for the admin area, with
+ * covers for the ones that aren't on la5.
  *
  *   node export.mjs                 encode + upload whatever isn't done yet, then write the JSON
  *   node export.mjs --limit 200     only do 200 more photos (trial run)
@@ -118,15 +120,20 @@ const log = (file, entry) => appendFileSync(file, `${JSON.stringify(entry)}\n`);
 
 // --- Database ------------------------------------------------------------
 
+const connect = () => mysql.createConnection({
+  host: env.DB_HOST ?? '127.0.0.1',
+  port: Number(env.DB_PORT ?? 3307),
+  user: env.DB_USER ?? 'limitedaudience',
+  password: env.DB_PASSWORD ?? 'limitedaudience',
+  database: env.DB_NAME ?? 'limitedaudience',
+  dateStrings: true,
+});
+
+const plainText = html => (html ?? '').replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+const liveDate = date => (date && !date.startsWith('0000') ? date.substring(0, 10) : null);
+
 async function loadGalleries() {
-  const db = await mysql.createConnection({
-    host: env.DB_HOST ?? '127.0.0.1',
-    port: Number(env.DB_PORT ?? 3307),
-    user: env.DB_USER ?? 'limitedaudience',
-    password: env.DB_PASSWORD ?? 'limitedaudience',
-    database: env.DB_NAME ?? 'limitedaudience',
-    dateStrings: true,
-  });
+  const db = await connect();
   try {
     // Raw columns: the Eloquent accessors rewrite the dates
     const [photos] = await db.query(`
@@ -148,9 +155,10 @@ async function loadGalleries() {
       id: set.id,
       path: set.path,
       title: set.title.trim(),
-      description: (set.description ?? '').replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim(),
+      description: plainText(set.description),
       models: [...new Set((models.get(set.id) ?? []).map(tag => modelName(tag.name)))],
-      date: set.liveDate?.startsWith('0000') ? null : set.liveDate?.substring(0, 10) ?? null,
+      slugs: [...new Set((models.get(set.id) ?? []).map(tag => tag.name))],
+      date: liveDate(set.liveDate),
       // code -1 marks the subscriber-only "permanent collection"
       permanent: set.code === -1,
     }]));
@@ -325,6 +333,113 @@ async function verify(progress) {
   }
 }
 
+// --- Videos --------------------------------------------------------------
+// Every video set in the database, for the admin area. Sets that are on la5
+// point at their videos.json entry; the rest get a cover uploaded next to the
+// photos (under an unguessable key, as many are in the permanent collection).
+
+const VIDEO_COVER_WIDTH = 640;
+const VIDEO_COVERS = path.join(here, LOCAL_DIR ? '.video-covers.local.jsonl' : '.video-covers.jsonl');
+
+async function loadVideos() {
+  const db = await connect();
+  try {
+    const [sets] = await db.query(`
+      SELECT id, path, title, description, cover, video_quality AS quality, live_date AS liveDate, code
+      FROM mediasets WHERE type = 'video' AND title IS NOT NULL AND title != ''`);
+    const [items] = await db.query(`
+      SELECT i.mediaset_id AS setId, i.type, i.filename, i.format, i.width, i.height, i.duration, i.filesize
+      FROM mediaitems i JOIN mediasets s ON s.id = i.mediaset_id WHERE s.type = 'video'`);
+    const [tags] = await db.query(`
+      SELECT st.mediaset_id AS setId, t.name
+      FROM mediaset_tag st JOIN tags t ON t.id = st.tag_id
+      JOIN mediasets s ON s.id = st.mediaset_id
+      WHERE t.type = 'model' AND s.type = 'video'
+      ORDER BY st.id`);
+
+    const itemsBySet = Map.groupBy(items, item => item.setId);
+    const tagsBySet = Map.groupBy(tags, tag => tag.setId);
+    const la5 = JSON.parse(readFileSync(path.join(here, '../../src/data/videos.json'), 'utf8').replace(/^﻿/, ''));
+
+    // Match on the video's file size first: trailer names aren't always unique,
+    // and the two converted videos only have WMVs in the database
+    const bySize = Map.groupBy(la5, video => video.video.filesize);
+    const byTrailer = Map.groupBy(la5, video => video.trailer.filename);
+    const byTitle = Map.groupBy(la5, video => `${video.title}|${[...video.models].sort()}`);
+    const unique = matches => (matches?.length === 1 ? matches[0] : null);
+    const matched = new Set();
+
+    const videos = sets.map((set) => {
+      const setItems = itemsBySet.get(set.id) ?? [];
+      const videoItems = setItems.filter(item => item.type === 'video');
+      const slugs = [...new Set((tagsBySet.get(set.id) ?? []).map(tag => tag.name))];
+      const match = videoItems.map(item => unique(bySize.get(item.filesize))).find(Boolean)
+        ?? setItems.filter(item => item.type === 'trailer').map(item => unique(byTrailer.get(item.filename))).find(Boolean)
+        ?? unique(byTitle.get(`${set.title}|${[...slugs].sort()}`));
+      if (match) matched.add(match);
+
+      // The best master: MP4 over WMV, then the largest
+      const best = [...videoItems].sort((a, b) => (b.format === 'mp4') - (a.format === 'mp4') || b.width * b.height - a.width * a.height)[0];
+      return {
+        id: set.id,
+        path: set.path,
+        cover: set.cover,
+        title: set.title.trim(),
+        description: plainText(set.description),
+        models: slugs.map(modelName),
+        slugs,
+        date: liveDate(set.liveDate),
+        permanent: set.code === -1,
+        quality: set.quality,
+        video: best && { format: best.format, width: best.width, height: best.height, duration: best.duration, filesize: best.filesize },
+        trailer: setItems.some(item => item.type === 'trailer'),
+        la5: match?.trailer.filename ?? null,
+      };
+    });
+
+    const unmatched = la5.filter(video => !matched.has(video));
+    if (unmatched.length) console.warn(`la5 videos not found in the database: ${unmatched.map(video => video.title).join(', ')}`);
+    return videos;
+  } finally {
+    await db.end();
+  }
+}
+
+async function runVideoCovers() {
+  const done = new Map(readLog(VIDEO_COVERS).map(entry => [entry.id, entry]));
+  const todo = (await loadVideos()).filter(video => !video.la5 && video.cover && !done.has(video.id));
+  if (!todo.length) return;
+  console.log(`${todo.length} video covers to do`);
+
+  let failed = 0;
+  for (const video of todo) {
+    if (stopping) break;
+    const src = path.join(MEDIA_ROOT, video.path, video.cover);
+    try {
+      const { data, info } = await sharp(src, { failOn: 'error' })
+        .rotate()
+        .flatten({ background: '#000000' })
+        .resize({ width: VIDEO_COVER_WIDTH, withoutEnlargement: true })
+        .jpeg({ quality: 82, mozjpeg: true, progressive: true })
+        .toBuffer({ resolveWithObject: true });
+      const key = photoKey(`video-${video.id}`);
+      if (LOCAL_DIR) {
+        mkdirSync(path.join(LOCAL_DIR, 'vcover'), { recursive: true });
+        writeFileSync(path.join(LOCAL_DIR, 'vcover', `${key}.jpg`), data);
+      } else {
+        await withRetry(() => s3.send(new PutObjectCommand({
+          Bucket: BUCKET, Key: `vcover/${key}.jpg`, Body: data, ContentType: 'image/jpeg', CacheControl: CACHE_CONTROL,
+        })), `Uploading the cover of video ${video.id}`);
+      }
+      log(VIDEO_COVERS, { id: video.id, key, w: info.width, h: info.height });
+    } catch (error) {
+      failed++;
+      console.warn(`Cover of ${video.title} (${video.path}/${video.cover}): ${error.message}`);
+    }
+  }
+  console.log(`Video covers: ${todo.length - failed} done${failed ? `, ${failed} failed` : ''}`);
+}
+
 // --- Gallery JSON --------------------------------------------------------
 
 async function writeJson(progress) {
@@ -342,10 +457,16 @@ async function writeJson(progress) {
     return { ...set, photos: setPhotos };
   }).sort((a, b) => (b.date ?? '').localeCompare(a.date ?? '') || b.id - a.id);
 
+  const covers = new Map(readLog(VIDEO_COVERS).map(entry => [entry.id, entry]));
+  const videos = (await loadVideos()).map(({ path: _path, cover: _cover, ...video }) => {
+    const cover = covers.get(video.id);
+    return { ...video, cover: !video.la5 && cover ? [cover.key, cover.w, cover.h] : null };
+  }).sort((a, b) => (b.date ?? '').localeCompare(a.date ?? '') || b.id - a.id);
+
   mkdirSync(path.dirname(OUT), { recursive: true });
-  writeFileSync(OUT, JSON.stringify({ base: PUBLIC_BASE, sets: galleries }));
+  writeFileSync(OUT, JSON.stringify({ base: PUBLIC_BASE, sets: galleries, videos }));
   const count = galleries.reduce((sum, set) => sum + set.photos.length, 0);
-  console.log(`Wrote ${path.relative(process.cwd(), OUT)}: ${galleries.length} galleries, ${count} photos`);
+  console.log(`Wrote ${path.relative(process.cwd(), OUT)}: ${galleries.length} galleries, ${count} photos, ${videos.length} videos (${videos.filter(video => video.la5).length} on la5)`);
 }
 
 // --- Main ----------------------------------------------------------------
@@ -364,6 +485,9 @@ if (args.verify && LOCAL_DIR) {
 } else if (args.verify) {
   await verify(progress);
 } else {
-  if (!args['json-only']) await run(progress);
+  if (!args['json-only']) {
+    await run(progress);
+    if (!stopping) await runVideoCovers();
+  }
   await writeJson(loadProgress());
 }

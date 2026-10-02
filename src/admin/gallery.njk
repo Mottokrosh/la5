@@ -1,0 +1,32 @@
+---
+pagination:
+  data: admin.galleryPages
+  size: 1
+  alias: page_
+permalink: "/admin/{{ page_.model.slug }}/{{ page_.gallery.slug }}/"
+bodyClass: admin admin-gallery
+noindex: true
+scripts: [/js/photo-gallery.js]
+styles: [/css/photoswipe.css]
+eleventyExcludeFromCollections: true
+eleventyComputed:
+  title: "{{ page_.gallery.title | safe }} – {{ page_.model.name | safe }} | Admin"
+---
+{% set gallery = page_.gallery %}
+<header class="gallery-header">
+  <a href="/admin/{{ page_.model.slug }}/" role="button" class="round" aria-label="{{ page_.model.name }}">{% icon "arrow-left" %}</a>
+  <div>
+    <h2>{{ gallery.title }}{% if gallery.permanent %} <span class="badge" title="Permanent collection">PC</span>{% endif %}</h2>
+    <p class="meta">
+      {% for m in gallery.cast %}<a href="/admin/{{ m.slug }}/">{{ m.name }}</a>{% if not loop.last %}, {% endif %}{% endfor %}
+      · {{ gallery.date or 'No date' }} · {{ gallery.photos.length }} photo{% if gallery.photos.length != 1 %}s{% endif %}
+    </p>
+    {% if gallery.description %}<p class="description">{{ gallery.description }}</p>{% endif %}
+  </div>
+</header>
+
+<photo-gallery>
+  <div class="photo-grid">
+    {% for photo in gallery.tiles %}{% include "partials/photo-tile.njk" %}{% endfor %}
+  </div>
+</photo-gallery>

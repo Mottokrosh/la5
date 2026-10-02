@@ -1,23 +1,20 @@
 ---
 title: Admin
 permalink: /admin/
-bodyClass: admin
+bodyClass: models admin
 noindex: true
-scripts: [/js/photo-gallery.js, /js/admin-gallery.js]
-styles: [/css/photoswipe.css]
 eleventyExcludeFromCollections: true
 ---
-<h2>All photos</h2>
+{% from "partials/admin-counts.njk" import counts %}
+<h2>All models</h2>
+<p class="intro">Every model's videos and galleries, the permanent collection (PC) included. Videos that aren't on the site are listed too.</p>
 
-<admin-gallery class="search" data-src="/admin/photos.json">
-  <form role="search">
-    <input type="search" name="q" placeholder="Search title, model, description..." aria-label="Search photos" autocomplete="off">
-    <button type="submit" aria-label="Search">{% icon "search" %}</button>
-  </form>
-  <p class="search-status" aria-live="polite">Loading…</p>
-
-  <photo-gallery>
-    <div class="photo-grid"></div>
-  </photo-gallery>
-  <div class="sentinel"></div>
-</admin-gallery>
+<ul>
+  {% for model in admin.models %}
+  <li style="--x: {{ model.picX }}; --y: {{ model.picY }}">
+    <a href="/admin/{{ model.slug }}/" class="avatar" aria-hidden="true" tabindex="-1"></a>
+    <a href="/admin/{{ model.slug }}/" class="name"><span>{{ model.name }}</span></a>
+    {{ counts(model.counts) }}
+  </li>
+  {% endfor %}
+</ul>
