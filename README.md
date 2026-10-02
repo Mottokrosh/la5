@@ -35,7 +35,7 @@ Node 22 or newer is required. `npm start` needs the [Netlify CLI](https://docs.n
 
 `/photos/` shows 100 random gallery photos, changing daily, and each model page shows the ones she appears in. `/admin/` shows every gallery photo, newest first, and you can search it by title, model and description. The permanent collection only appears in the admin area, and photostories aren't included.
 
-The photos are in the `limited-audience-gallery` S3 bucket (eu-central-1). The keys are unguessable, of the form `full/<key>.avif|jpg` and `thumb/<key>.avif|jpg`. The metadata is kept in Netlify Blobs, not in this public repo, because it includes the permanent collection. Before each Netlify build, a local build plugin (`netlify/plugins/photo-data/`) fetches it from the `galleries` key of the `photos` store into `.cache/`, because the build command itself can't read Blobs. `/admin/photos.json` is the only place it gets published, and that path is behind the password.
+The photos are in the `limited-audience-gallery` S3 bucket (eu-central-1) and served through CloudFront. The keys are unguessable, of the form `full/<key>.avif|jpg` and `thumb/<key>.avif|jpg`. The metadata is kept in Netlify Blobs, not in this public repo, because it includes the permanent collection. Before each Netlify build, a local build plugin (`netlify/plugins/photo-data/`) fetches it from the `galleries` key of the `photos` store into `.cache/`, because the build command itself can't read Blobs. `/admin/photos.json` is the only place it gets published, and that path is behind the password.
 
 ### Exporting the photos
 
@@ -64,4 +64,22 @@ To try the pages locally without S3, run `node export.mjs --local --limit 500`. 
 
 - `ADMIN_PASSWORD`: the admin area's password.
 
-The bucket needs a policy that allows public `s3:GetObject` on its objects, but not listing.
+### CloudFront
+
+The gallery photos, video covers and trailers are served through CloudFront, where AWS's always-free tier covers 1 TB of downloads a month. Downloads from S3 to CloudFront are free.
+
+| Bucket | Distribution | Address |
+|---|---|---|
+| `limited-audience-gallery` | `E1C7KB8Q7KLHF9` | `https://d14bn3hw7yvfhd.cloudfront.net` |
+| `limited-audience-covers` | `E3CGUU93ABGFV3` | `https://d3h12rtbqhy9yo.cloudfront.net` |
+| `limited-audience-trailers` | `E7IB8YMIW1251` | `https://d20xnhkw69yz83.cloudfront.net` |
+
+- **Access:** each distribution reads its bucket through the `la5-s3` Origin Access Control, which each bucket's policy allows.
+- **Price class:** `PriceClass_100`, meaning edge locations in Europe and North America.
+- **Caching:** the `la5-static-min-1d` cache policy keeps files for at least a day. The covers and trailers are stored with `Cache-Control: no-cache`, so the `la5-cache-1d` response headers policy also tells browsers to keep them for a day.
+- **Replaced files:** after replacing a cover or trailer under the same name, create an invalidation, for example:
+  ```bash
+  aws cloudfront create-invalidation --distribution-id E3CGUU93ABGFV3 --paths "/<file>"
+  ```
+
+The banners in `links.json` are still served straight from S3.
