@@ -17,7 +17,7 @@ Node 22 or newer is required. `npm start` needs the [Netlify CLI](https://docs.n
 
 - `src/data/*.json`: the videos, models and links. Edit these to update the catalogue.
 - `src/_data/catalog.js`: loads the JSON, gives each video a URL slug, counts videos per model, and shuffles the videos using the build date as the seed.
-- `src/_data/photos.js`: loads the gallery photo metadata (see [Photos](#photos)) and picks the day's 250 random photos, leaving out the permanent collection. Each model's page shows the ones she's in.
+- `src/_data/photos.js`: loads the gallery photo metadata (see [Photos](#photos)) and picks the day's 100 random photos, leaving out the permanent collection. Each model's page shows the ones she's in.
 - `src/*.html`, `src/*.njk`: the pages. Every video gets its own page at `/videos/<slug>/`.
 - `src/css/`: plain CSS, combined into `/app.css` by `src/app.css.11ty.js`.
 - `src/js/`: web components that enhance the static HTML:
@@ -33,7 +33,7 @@ Node 22 or newer is required. `npm start` needs the [Netlify CLI](https://docs.n
 
 ## Photos
 
-`/photos/` shows 250 random gallery photos, changing daily, and each model page shows the ones she appears in. `/admin/` shows every gallery photo, newest first, and you can search it by title, model and description. The permanent collection only appears in the admin area, and photostories aren't included.
+`/photos/` shows 100 random gallery photos, changing daily, and each model page shows the ones she appears in. `/admin/` shows every gallery photo, newest first, and you can search it by title, model and description. The permanent collection only appears in the admin area, and photostories aren't included.
 
 The photos are in the `limited-audience-gallery` S3 bucket (eu-central-1). The keys are unguessable, of the form `full/<key>.avif|jpg` and `thumb/<key>.avif|jpg`. The metadata is kept in Netlify Blobs, not in this public repo, because it includes the permanent collection. Before each Netlify build, a local build plugin (`netlify/plugins/photo-data/`) fetches it from the `galleries` key of the `photos` store into `.cache/`, because the build command itself can't read Blobs. `/admin/photos.json` is the only place it gets published, and that path is behind the password.
 

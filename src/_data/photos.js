@@ -1,7 +1,7 @@
 import { readFile } from 'node:fs/promises';
 import { dailySeed, shuffle } from '../_lib/shuffle.js';
 
-const DAILY_COUNT = 250;
+const DAILY_COUNT = 100;
 
 // The metadata includes the permanent collection, so it lives in Netlify Blobs
 // rather than this (public) repo. On Netlify, the photo-data build plugin
